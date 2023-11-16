@@ -15,15 +15,14 @@ const Main = () => {
     const [allQRs, setAllQRs] = useState([]);
     const guests = useSelector(state => state.guests.guests);
     const qrCodeRefs = useRef([]);
-
-    console.log("guests:   ", guests);
+    let tableHeaders = null;
 
     const generateQRCodes = () => {
         let qrArr = guests.map((guest, index) => {
             return (
                 <React.Fragment key={guest.id}>
                     <div className={styles.guestRow}>
-                        <p># {index+1}</p>
+                        <div># {index+1}</div>
                         <div>
                             <p>{guest.firstName} {guest.lastName}</p>
                             <p>{guest.email}</p>
@@ -32,16 +31,16 @@ const Main = () => {
                         <div className={styles.comments}>
                             {guest.comments}
                         </div>
-                        <div>
+                        <div className={styles.qrColumn}>
                             <QRCodeSVG value={`https://google.com/search?q=${index}`} />
-                        </div>
-                        <div onClick={() => downloadQR(index, guest)} className={styles.downloadBtn}>
-                            Download QR Code
+                            <div onClick={() => downloadQR(index, guest)} className={styles.downloadBtn}>
+                                Download QR Code
+                            </div>
                         </div>
                     </div>
                     <div className={styles.downloadCard} ref={(ref) => (qrCodeRefs.current[index] = ref)}>
                         <img src={IFBALogo} className={styles.logoContainer} />
-                        <div>
+                        <div className={styles.content}>
                             <p>Dear {guest.firstName} {guest.lastName},</p>
                             <p>
                                 You are graciously invited to the annual edition of the
@@ -52,8 +51,8 @@ const Main = () => {
                                 Kindly scan the QR code given below at the entrance. Our 
                                 hardworking team will be there to assist you.
                             </p>
-                            <QRCodeSVG value={`https://google.com/search?q=${index}`} />
                         </div>
+                        <QRCodeSVG value={`https://google.com/search?q=${index}`} />
                     </div>
                 </React.Fragment>
             )
@@ -95,9 +94,22 @@ const Main = () => {
         }
     }, [guests]);
 
+    if(guests && guests.length) {
+        tableHeaders = (
+            <div className={styles.tableHeaders}>
+                <div>Sr. No.</div>
+                <div>Contact Information</div>
+                <div>Comments</div>
+                <div>QR Code</div>
+                <div></div>
+            </div>
+        );
+    }
+
     return (
         <div className="wrapper">
             <p className={styles.title}>Generated QR Codes</p>
+            { tableHeaders }
             { allQRs }
         </div>
     )
