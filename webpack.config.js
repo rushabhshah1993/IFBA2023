@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const SRC_DIR = 'src';
-const DES_DIR = 'build';
+const DES_DIR = 'public';
 
 module.exports = {
     entry: path.join(__dirname, SRC_DIR),
@@ -44,6 +44,10 @@ module.exports = {
                         loader: 'sass-loader'
                     }
                 ]
+            },
+            {
+                test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
+                use: ['file-loader']
             }
         ]
     },

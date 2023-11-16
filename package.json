@@ -6,6 +6,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.2",
+    "crypto-js": "^4.2.0",
+    "file-loader": "^6.2.0",
     "firebase": "^10.6.0",
     "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
@@ -32,7 +34,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve"
+    "start": "webpack serve",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
