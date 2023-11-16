@@ -1,0 +1,45 @@
+@import './../../assets/styles/variables.scss';
+
+.title {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+}
+
+.guestRow {
+    display: grid;
+    grid-template-columns: 5% 20% 40% 20% 15%;
+    justify-content: space-between;
+    padding: 5%;
+    border-bottom: 1px solid #EAEAEA;
+    margin-bottom: 8px;
+    align-items: center;
+}
+
+.comments  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.downloadBtn {
+    height: 40px;
+    background-color: $primary-green;
+    color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.downloadCard {
+    justify-content: center;
+    align-items: center;
+    background-color: $white; 
+    color: $primary-black;
+    display: none;
+    
+    &.showDownloadTemplate {
+        display: flex;
+    }
+}

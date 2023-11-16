@@ -1,0 +1,31 @@
+@import './../../assets/styles/variables.scss';
+
+.breadcrumb {
+    background-color: $white;
+    display: flex;
+
+    .navList {
+        display: flex;
+        align-items: center;
+
+        a {
+            text-decoration: none;
+            color: $primary-black;
+            text-transform: uppercase;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+
+            &.active {
+                background-color: $primary-green;
+            }
+        }
+    }
+
+    img {
+        height: 50px;
+        margin-right: 1rem;
+    }
+}
