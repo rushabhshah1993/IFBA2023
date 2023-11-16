@@ -50,6 +50,7 @@ export const checkIfUserAuthenticated = (name, password) => async (dispatch, get
             if(decryptedPassword === password) {
                 dispatch(userLoggedIn(true));
                 dispatch(setActiveUser(userExists));
+                localStorage.setItem('expiryStart', new Date().getTime());
                 return true;
             }
             return false;
