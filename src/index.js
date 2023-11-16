@@ -7,8 +7,8 @@ import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 /* Component imports */
-import Home from '@/pages/Home/Home';
-import Login from './pages/Login/Login';
+import Layout from '@/pages/Layout/Layout';
+import Login from '@/pages/Login/Login';
 
 /* Store imports */
 import store from '@/store/store';
@@ -28,12 +28,16 @@ if(isLoggedIn && new Date().getTime() > parseInt(isLoggedIn)+14400000) {
     localStorage.removeItem('expiryStart');
     store.dispatch(userLoggedIn(false));
     store.dispatch(setActiveUser({}));
-}
+} 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <Provider store={store}>
-        <Login />
+        { 
+            isLoggedIn && new Date().getTime() > parseInt(isLoggedIn)+14400000 ?
+            <Login /> :
+            <Layout />
+        }
     </Provider>
 );
