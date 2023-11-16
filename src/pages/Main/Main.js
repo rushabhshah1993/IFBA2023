@@ -12,15 +12,22 @@ import IFBALogo from '@/assets/images/logo.png';
 
 
 const Main = () => {
+    const originalGuests = useSelector(state => state.guests.guests);
+
     const [allQRs, setAllQRs] = useState([]);
-    const guests = useSelector(state => state.guests.guests);
+    const [originalQRs, setOriginalQRs] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [guests, setGuests] = useState([]);
+    
     const qrCodeRefs = useRef([]);
+    
     let tableHeaders = null;
+    let searchContainer = null;
 
     const generateQRCodes = () => {
-        let qrArr = guests.map((guest, index) => {
+        let qrArr = originalGuests.map((guest, index) => {
             return (
-                <React.Fragment key={guest.id}>
+                <React.Fragment key={`${guest.id}_${guest.firstName}_${guest.lastName}`}>
                     <div className={styles.guestRow}>
                         <div># {index+1}</div>
                         <div>
@@ -57,6 +64,7 @@ const Main = () => {
                 </React.Fragment>
             )
         });
+        setOriginalQRs(qrArr);
         setAllQRs(qrArr);
     }
 
@@ -89,10 +97,23 @@ const Main = () => {
     }
 
     useEffect(() => {
-        if(guests && guests.length) {
+        if(originalGuests && originalGuests.length) {
+            setGuests(originalGuests);
             generateQRCodes();
         }
-    }, [guests]);
+    }, [originalGuests]);
+
+    const searchHandler = (event) => {
+        setSearchTerm(event.target.value);
+        if(event.target.value.length === 0) {
+            setAllQRs(originalQRs);
+            return;
+        }
+        let filteredQRs = allQRs.filter(element => {
+            return element.key.includes(event.target.value);
+        })
+        setAllQRs(filteredQRs);
+    }
 
     if(guests && guests.length) {
         tableHeaders = (
@@ -104,11 +125,23 @@ const Main = () => {
                 <div></div>
             </div>
         );
-    }
 
+    }
+    if(originalGuests && originalGuests.length) {
+        searchContainer = (
+            <input 
+                type="text" 
+                onChange={searchHandler} 
+                value={searchTerm}
+                placeholder={'Search guests by first name'}
+                className={styles.search} />
+        );
+    }
+    
     return (
-        <div className="wrapper">
+        <div className={styles.wrapper}>
             <p className={styles.title}>Generated QR Codes</p>
+            { searchContainer }
             { tableHeaders }
             { allQRs }
         </div>
