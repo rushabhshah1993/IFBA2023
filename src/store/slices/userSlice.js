@@ -6,16 +6,24 @@ import CryptoJS from 'crypto-js';
 const slice = createSlice({
     name: 'users',
     initialState: {
-        users: []
+        users: [],
+        loggedIn: false,
+        activeUser: {}
     },
     reducers: {
         addUsersToStore: (state, action) => {
             state.users = [...action.payload];
+        },
+        userLoggedIn: (state, action) => {
+            state.loggedIn = action.payload;
+        },
+        setActiveUser: (state, action) => {
+            state.activeUser = action.payload;
         }
     }
 })
 
-export const { addUsersToStore, checkUserName } = slice.actions;
+export const { addUsersToStore, userLoggedIn, setActiveUser } = slice.actions;
 
 export const fetchUsers = () => (dispatch) => {
     axios.get('https://ifba-23-default-rtdb.firebaseio.com/users.json')
@@ -27,7 +35,7 @@ export const fetchUsers = () => (dispatch) => {
     })
 }
 
-export const checkIfUserAuthenticated = (name, password) => (dispatch, getState) => {
+export const checkIfUserAuthenticated = (name, password) => async (dispatch, getState) => {
     const state = getState();
     return axios.get('https://ifba-23-default-rtdb.firebaseio.com/phrase.json')
     .then(response => {
@@ -38,8 +46,13 @@ export const checkIfUserAuthenticated = (name, password) => (dispatch, getState)
             
             const decryptedBytes = CryptoJS.AES.decrypt(userExists.pass, phrase);
             const decryptedPassword = decryptedBytes.toString(CryptoJS.enc.Utf8);
-            
-            return decryptedPassword === password;
+
+            if(decryptedPassword === password) {
+                dispatch(userLoggedIn(true));
+                dispatch(setActiveUser(userExists));
+                return true;
+            }
+            return false;
         }
     })
     .catch(error => {
