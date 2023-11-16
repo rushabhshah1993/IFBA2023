@@ -2,6 +2,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 
 /* Component imports */
 import Home from '@/pages/Home/Home';
@@ -17,6 +20,8 @@ import './index.scss';
 
 store.dispatch(fetchGuestList());
 store.dispatch(fetchUsers());
+
+library.add(faEye, faEyeSlash);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

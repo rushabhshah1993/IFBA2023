@@ -1,6 +1,7 @@
 /* Package imports */
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /* Style imports */
 import styles from './Login.scss';
@@ -14,6 +15,7 @@ import { checkIfUserAuthenticated } from '@/store/slices/userSlice';
 const Login = () => {
     const [username, setUserName] = useState('');
     const [password, setPassword] = useState('');
+    const [viewPassword, setPasswordVisibility] = useState(false);
     const dispatch = useDispatch();
 
     const usernameChangeHandler = event => {
@@ -34,6 +36,10 @@ const Login = () => {
         })
     }
 
+    const changePasswordVisibility = () => {
+        setPasswordVisibility(!viewPassword);
+    }
+
     let btnClassNames = [styles.loginBtn];
     if(username.length && password.length) {
         btnClassNames.push(styles.activeBtn);
@@ -51,11 +57,17 @@ const Login = () => {
                 onChange={usernameChangeHandler}
                 placeholder='Username' 
                 value={username} />
-            <input 
-                type="password" 
-                onChange={passwordChangeHandler} 
-                placeholder='Password'
-                value={password} />
+            <div className={styles.passwordContainer}>
+                <input 
+                    type={viewPassword ? 'text' : 'password'}
+                    onChange={passwordChangeHandler} 
+                    placeholder='Password'
+                    value={password} />
+                <FontAwesomeIcon 
+                    className={styles.passwordIcon}
+                    icon={viewPassword ? 'eye' : 'eye-slash'}
+                    onClick={changePasswordVisibility} />
+            </div>
             <div className={btnClassNames.join(' ')} onClick={loginClickHandler}>
                 Log In
             </div>

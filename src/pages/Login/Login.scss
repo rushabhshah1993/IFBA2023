@@ -49,4 +49,16 @@
             pointer-events: all;
         }
     }
+
+    .passwordContainer {
+        position: relative;
+
+        .passwordIcon {
+            position: absolute;
+            color: black;
+            top: 12px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
 }
