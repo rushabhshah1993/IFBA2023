@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
+    "axios": "^1.6.2",
     "firebase": "^10.6.0",
     "html2canvas": "^1.4.1",
     "lodash": "^4.17.21",
