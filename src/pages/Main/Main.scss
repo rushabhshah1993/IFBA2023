@@ -1,4 +1,5 @@
 @import './../../assets/styles/variables.scss';
+@import './../../assets/styles/mixins.scss';
 
 .wrapper {
     padding: 2%;
@@ -25,6 +26,10 @@
 }
 
 .tableHeaders {
+    @include for-phone-only {
+        display: none;
+    }
+
     border-bottom: none;
     margin-bottom: 0;
 
@@ -35,10 +40,27 @@
     }
 }
 
+.guestRow {
+    @include for-phone-only {
+        div:first-child {
+            display: none;
+        }
+
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        padding-bottom: 1rem;
+    }
+}
+
 .comments  {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @include for-phone-only {
+        font-size: 12px;;
+    }
 }
 
 .downloadBtn {
@@ -65,10 +87,45 @@
     &.showDownloadTemplate {
         display: flex;
     }
+
+    @include for-phone-only {
+        .logoContainer {
+            width: 75%;
+        }
+    }
 }
 
 .qrColumn {
     display: flex;
     justify-content: space-around;
     align-items: center;
+
+    @include for-phone-only {
+        flex-direction: column;
+        row-gap: 1rem;
+    }
+}
+
+.guestInfo {
+    @include for-phone-only {
+        .name {
+            font-size: 1.25rem;
+        }
+
+        .email,
+        .phone {
+            font-size: 12px;
+        }
+    }
+}
+
+.searchContainer {
+    position: relative;
+
+    .searchIcon {
+        position: absolute;
+        right: 10px;
+        top: 12px;
+        color: black;
+    }
 }

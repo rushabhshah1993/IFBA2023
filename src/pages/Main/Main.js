@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { QRCodeSVG } from 'qrcode.react';
 import html2canvas from 'html2canvas';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /* Style imports */
 import styles from './Main.scss';
@@ -30,10 +31,10 @@ const Main = () => {
                 <React.Fragment key={`${guest.id}_${guest.firstName}_${guest.lastName}`}>
                     <div className={styles.guestRow}>
                         <div># {index+1}</div>
-                        <div>
-                            <p>{guest.firstName} {guest.lastName}</p>
-                            <p>{guest.email}</p>
-                            <p>{guest.number}</p>
+                        <div className={styles.guestInfo}>
+                            <p className={styles.name}>{guest.firstName} {guest.lastName}</p>
+                            <p className={styles.email}>{guest.email}</p>
+                            <p className={styles.phone}>{guest.number}</p>
                         </div>
                         <div className={styles.comments}>
                             {guest.comments}
@@ -129,12 +130,15 @@ const Main = () => {
     }
     if(originalGuests && originalGuests.length) {
         searchContainer = (
-            <input 
-                type="text" 
-                onChange={searchHandler} 
-                value={searchTerm}
-                placeholder={'Search guests by first name'}
-                className={styles.search} />
+            <div className={styles.searchContainer}>
+                <input 
+                    type="text" 
+                    onChange={searchHandler} 
+                    value={searchTerm}
+                    placeholder={'Search guests by first name'}
+                    className={styles.search} />
+                <FontAwesomeIcon icon="search" className={styles.searchIcon} />
+            </div>
         );
     }
     
