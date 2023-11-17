@@ -30,7 +30,7 @@ if(isLoggedIn && new Date().getTime() > parseInt(isLoggedIn)+14400000) {
     store.dispatch(setActiveUser({}));
 } 
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root')); 
 
 root.render(
     <Provider store={store}>
