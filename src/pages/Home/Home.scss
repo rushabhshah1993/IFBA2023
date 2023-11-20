@@ -67,9 +67,11 @@
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
-                height: 40px;
+                min-height: 40px;
                 border-bottom: 1px solid #353535;
                 margin-bottom: 8px;
+                column-gap: 1rem;
+                padding-bottom: 8px;
 
                 &:last-child {
                     margin-bottom: 0;

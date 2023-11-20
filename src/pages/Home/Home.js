@@ -41,7 +41,7 @@ const Home = () => {
     useEffect(() => {
         let checkedInGuests = guests.filter(item => item.entry);
         let pendingGuests = guests.filter(item => !item.entry);
-        let plusOnes = checkedInGuests.reduce((total, item) => total + item.plusOnes, 0);
+        let plusOnes = checkedInGuests.reduce((total, item) => total + item.plusOnesEntered, 0);
         setCheckedInPlusOnesCount(plusOnes);
         setCheckedInGuests(checkedInGuests);
         setPendingGuests(pendingGuests);
@@ -54,10 +54,9 @@ const Home = () => {
                     checkedInGuests.map((guest, index) => (
                         <div key={guest.id} className={styles.checkedInGuest}>
                             <div>{index+1}</div>
-                            <div>{guest.firstName} {guest.lastName}</div>
-                            <div>{guest.plusOnesEntered}</div>
-                            <div>{guest.checkIn.checkedInBy}</div>
-                            <div>{new Date(guest.checkIn.checkedInAt).toTimeString()}</div>
+                            <div>
+                                {guest.firstName} {guest.lastName} was checked in with {guest.plusOnesEntered} extras by {guest.checkIn.checkedInBy} at {new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}
+                            </div>
                         </div>
                     ))
                 }
@@ -104,7 +103,7 @@ const Home = () => {
                     value={guests.length} 
                     className={styles.metric} />
                 <Metric 
-                    label={'Guests Checked In (with Plus Ones)'} 
+                    label={'Guests Checked In (with Extras)'} 
                     value={`${checkedInGuests.length} (${checkedInPlusOnesCount})`} 
                     className={styles.metric} />
                 <Metric 
