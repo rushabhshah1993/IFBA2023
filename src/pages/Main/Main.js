@@ -144,7 +144,7 @@ const Main = () => {
     
     return (
         <div className={styles.wrapper}>
-            <p className={styles.title}>Generated QR Codes</p>
+            <p className={styles.title}>GUESTS LIST</p>
             { searchContainer }
             { tableHeaders }
             { allQRs }

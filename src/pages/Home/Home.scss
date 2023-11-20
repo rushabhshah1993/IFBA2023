@@ -4,7 +4,7 @@
     padding: 1rem;
 
     .welcomeMsg {
-        text-transform: uppercase;
+        text-transform: capitalize;
         font-size: 1.5rem;
     }
 
@@ -35,7 +35,7 @@
     .guestsCounter {
         .guestsHeader {
             font-size: 1.25rem;
-            text-transform: uppercase;
+            text-transform: capitalize;
         }
 
         .guestsContainer {
