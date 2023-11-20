@@ -19,8 +19,8 @@ const BreadCrumb = () => {
                     <NavLink to="/" className={({ isActive }) => {return isActive ? styles.active : ''}}>
                         Home
                     </NavLink>
-                    <NavLink to="/code" className={({ isActive }) => {return isActive ? styles.active : ''}}>
-                        QR Codes
+                    <NavLink to="/guests" className={({ isActive }) => {return isActive ? styles.active : ''}}>
+                        Guests
                     </NavLink>
                 </div>
             </nav>
