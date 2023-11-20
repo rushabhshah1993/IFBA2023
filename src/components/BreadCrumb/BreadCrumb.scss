@@ -16,7 +16,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 8px;
+            padding: 1rem;
+            font-size: 14px;
 
             &.active {
                 background-color: $primary-green;
