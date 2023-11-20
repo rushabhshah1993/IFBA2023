@@ -37,6 +37,10 @@ const Home = () => {
             <p className={styles.welcomeMsg}>
                 { currentMsg }
             </p>
+
+            <div className={styles.metricContainer}>
+                
+            </div>
         </div>
     )
 }

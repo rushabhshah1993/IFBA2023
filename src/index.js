@@ -14,11 +14,13 @@ import Login from '@/pages/Login/Login';
 import store from '@/store/store';
 import { fetchGuestList } from '@/store/slices/guestSlice';
 import { fetchUsers, userLoggedIn, setActiveUser } from '@/store/slices/userSlice';
+import { fetchMembersList } from '@/store/slices/memberSlice';
 
 /* Style imports */
 import './index.scss';
 
 store.dispatch(fetchGuestList());
+store.dispatch(fetchMembersList());
 store.dispatch(fetchUsers());
 
 library.add(faEye, faEyeSlash, faSearch);
