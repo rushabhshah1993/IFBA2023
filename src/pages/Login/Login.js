@@ -29,7 +29,9 @@ const Login = () => {
     const loginClickHandler = () => {
         let userAuthenticated = dispatch(checkIfUserAuthenticated(username, password));
         userAuthenticated.then(response => {
-            console.log("response:   ", response);
+            if(response) {
+                window.location.replace('/');
+            }
         })
         .catch(error => {
             console.log("Error in authenticating the user:   ", error);

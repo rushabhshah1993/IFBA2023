@@ -35,9 +35,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Provider store={store}>
         { 
-            isLoggedIn && new Date().getTime() > parseInt(isLoggedIn)+14400000 ?
-            <Login /> :
-            <Layout />
+            isLoggedIn && new Date().getTime() < parseInt(isLoggedIn)+14400000 ?
+            <Layout /> :
+            <Login />
         }
     </Provider>
 );
