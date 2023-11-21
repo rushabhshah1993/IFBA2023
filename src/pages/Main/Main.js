@@ -47,7 +47,7 @@ const Main = () => {
                             {guest.comments}
                         </div>
                         <div className={styles.qrColumn}>
-                            <QRCodeSVG value={`https://google.com/search?q=${index}`} />
+                            <QRCodeSVG value={guest.link} />
                             <div onClick={() => downloadQR(index, guest)} className={styles.downloadBtn}>
                                 Download QR Code
                             </div>

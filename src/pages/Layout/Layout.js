@@ -7,6 +7,7 @@ import AddGuest from '@/pages/AddGuest/AddGuest';
 import Home from '@/pages/Home/Home';
 import Login from '@/pages/Login/Login';
 import Main from '@/pages/Main/Main';
+import ScannedGuest from '../ScannedGuest/ScannedGuest';
 import BreadCrumb from '@/components/BreadCrumb/BreadCrumb';
 
 const Layout = () => {
@@ -20,6 +21,7 @@ const Layout = () => {
                         <Route path="/login" element={<Login />} />
                         <Route path="/guests" element={<Main />} />
                         <Route path="/add-guests" element={<AddGuest />} />
+                        <Route path="/scanned-guest" element={<ScannedGuest />} />
                     </Route>
                 </Routes>
             </BrowserRouter>
