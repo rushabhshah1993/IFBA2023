@@ -55,7 +55,7 @@ const Home = () => {
                         <div key={guest.id} className={styles.checkedInGuest}>
                             <div>{index+1}</div>
                             <div>
-                                {guest.firstName} {guest.lastName} was checked in with {guest.plusOnesEntered} extras by {guest.checkIn.checkedInBy} at {new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}
+                                {guest.firstName} {guest.lastName} was checked in with {guest.plusOnesEntered} extra(s) by {guest.checkIn.checkedInBy} at {new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}
                             </div>
                         </div>
                     ))

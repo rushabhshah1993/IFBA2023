@@ -1,6 +1,8 @@
 /* Package imports */
 import { createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import cloneDeep from 'lodash/cloneDeep';
+
 
 const slice = createSlice({
     name: 'guests',
@@ -27,5 +29,20 @@ export const fetchGuestList = () => (dispatch) => {
         console.error("Error in fetching the guests list:   ", error);
     })
 };
+
+export const addGuestToDatabase = (data) => async (dispatch, getState) => {
+    const state = getState();
+    let updatedGuests = cloneDeep(state.guests.guests);
+    updatedGuests.push(data);
+
+    return axios.put('https://ifba-23-default-rtdb.firebaseio.com/guests.json', updatedGuests)
+    .then(response => {
+        dispatch(fetchGuestList());
+        return response;
+    })
+    .catch(error => {
+        console.error("Error in adding the guest:  ", error);
+    })
+}
 
 export default slice.reducer; 

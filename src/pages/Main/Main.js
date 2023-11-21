@@ -67,7 +67,7 @@ const Main = () => {
                                 hardworking team will be there to assist you.
                             </p>
                         </div>
-                        <QRCodeSVG value={`https://google.com/search?q=${index}`} />
+                        <QRCodeSVG value={guest.link} />
                     </div>
                 </React.Fragment>
             )
