@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { 
     faEye, faEyeSlash, faSearch,
-    faUserPlus 
+    faUserPlus, faChevronLeft
 } from '@fortawesome/free-solid-svg-icons';
 
 
@@ -28,7 +28,7 @@ store.dispatch(fetchUsers());
 
 library.add(
     faEye, faEyeSlash, faSearch,
-    faUserPlus
+    faUserPlus, faChevronLeft
 );
 
 let isLoggedIn = localStorage.getItem('expiryStart');

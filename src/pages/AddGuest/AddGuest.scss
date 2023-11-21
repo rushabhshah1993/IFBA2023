@@ -1,0 +1,31 @@
+@import './../../assets/styles/variables.scss';
+
+.addGuestContainer {
+    padding: 1rem;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .pageTitle {
+            text-transform: uppercase;
+            font-size: 1.5rem;
+        }
+
+        .backBtn {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+
+            .leftIcon {
+                margin-right: 8px;
+            }
+        }
+    }
+}
