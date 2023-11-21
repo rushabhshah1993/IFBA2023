@@ -46,7 +46,7 @@ const AddGuest = () => {
             plusOnes: +plusOnes,
             email: email,
             phone: phone,
-            comments: comments,
+            comments: comments || "-",
             link: `https://www.google.com/search?q=${firstName}%20${lastName}`,
             id: guests.length + 1,
             plusOnesEntered: 0,
