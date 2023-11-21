@@ -79,5 +79,17 @@
         &:hover {
             background-color: $primary-green;
         }
+
+        &[disabled] {
+            background-color: $disabled-grey;
+            cursor: not-allowed;
+            pointer-events: none;
+            border: 1px solid #EAEAEA;
+        }
+    }
+
+    .loader {
+        color: $primary-black;
+        margin-right: 1rem;
     }
 }

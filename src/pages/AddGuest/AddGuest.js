@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+/* Component imports */
+import Modal from '@/components/Modal/Modal';
+
 /* Style imports */
 import styles from './AddGuest.scss';
 
@@ -10,10 +13,13 @@ import styles from './AddGuest.scss';
 import { addGuestToDatabase } from '@/store/slices/guestSlice';
 
 const AddGuest = () => {
+    /* Fetch store data */
     const guests = useSelector(state => state.guests.guests);
 
+    /* Set up dispatch */
     const dispatch = useDispatch();
 
+    /* Local state */
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [plusOnes, setPlusOnes] = useState(0);
@@ -21,14 +27,18 @@ const AddGuest = () => {
     const [phone, setPhone] = useState('');
     const [comments, setComments] = useState('');
     const [disabled, setDisabled] = useState(false);
+    const [loading, setLoading] = useState(false);
 
 
+
+    /* Functions and handlers */
     const onBackClickHandler = () => {
         window.location.assign('/guests');
     }
 
     const submitBtnHandler = () => {
         setDisabled(true);
+        setLoading(true);
 
         let finalGuestInfo = {
             firstName: firstName,
@@ -64,6 +74,7 @@ const AddGuest = () => {
         })
         .finally(() => {
             setDisabled(false);
+            setLoading(false);
         })
     }
 
@@ -151,10 +162,25 @@ const AddGuest = () => {
                         onChange={(event) => setComments(event.target.value)} />
                 </div>
 
-                <div className={styles.submitBtn} onClick={submitBtnHandler}>
+                <div className={styles.submitBtn} onClick={submitBtnHandler} disabled={disabled}>
                     Add Guest
                 </div>
             </div>
+
+            {
+                loading ? 
+                (
+                    <Modal>
+                        <FontAwesomeIcon 
+                            icon="spinner" 
+                            spin 
+                            className={styles.loader}
+                            size={'3x'}/>
+                        <span>Adding {firstName} {lastName} to the database...</span>
+                    </Modal> 
+                ): 
+                null
+            }
         </div>
     )
 }

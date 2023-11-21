@@ -22,6 +22,11 @@ input {
     border-radius: 8px;
     outline: none;
     padding: 8px;
+
+    &:disabled {
+        background-color: $disabled-grey;
+        cursor: not-allowed;
+    }
 }
 
 textarea {
@@ -29,5 +34,10 @@ textarea {
     padding: 8px;
     outline: none;
     font-family: 'Roboto', sans-serif;
+
+    &:disabled {
+        background-color: $disabled-grey;
+        cursor: not-allowed;
+    }
 }
 
