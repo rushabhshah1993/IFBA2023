@@ -144,7 +144,13 @@ const Main = () => {
     
     return (
         <div className={styles.wrapper}>
-            <p className={styles.title}>GUESTS LIST</p>
+            <div className={styles.header}>
+                <p className={styles.title}>GUESTS LIST</p>
+                <div className={styles.btn}>
+                    <FontAwesomeIcon icon="user-plus" />
+                    Add Guest(s)
+                </div>
+            </div>
             { searchContainer }
             { tableHeaders }
             { allQRs }

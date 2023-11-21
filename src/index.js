@@ -3,7 +3,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEye, faEyeSlash, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { 
+    faEye, faEyeSlash, faSearch,
+    faUserPlus 
+} from '@fortawesome/free-solid-svg-icons';
 
 
 /* Component imports */
@@ -23,7 +26,10 @@ store.dispatch(fetchGuestList());
 store.dispatch(fetchMembersList());
 store.dispatch(fetchUsers());
 
-library.add(faEye, faEyeSlash, faSearch);
+library.add(
+    faEye, faEyeSlash, faSearch,
+    faUserPlus
+);
 
 let isLoggedIn = localStorage.getItem('expiryStart');
 if(isLoggedIn && new Date().getTime() > parseInt(isLoggedIn)+14400000) {

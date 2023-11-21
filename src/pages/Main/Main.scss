@@ -65,14 +65,19 @@
 
 .downloadBtn {
     height: 40px;
-    background-color: $primary-green;
+    background-color: $dark-pastel-green;
+    border: 1px solid $primary-green;
     color: $white;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 8px;
     cursor: pointer;
-    padding: 4px;
+    padding: 8px;
+
+    &:hover {
+        background-color: $primary-green;
+    }
 }
 
 .downloadCard {
@@ -127,5 +132,23 @@
         right: 10px;
         top: 12px;
         color: black;
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .btn {
+        border: 1px solid $primary-green;
+        background-color: $dark-pastel-green;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $primary-green;
+        }
     }
 }
