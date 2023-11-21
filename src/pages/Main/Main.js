@@ -171,7 +171,9 @@ const Main = () => {
             </div>
             { searchContainer }
             { tableHeaders }
-            { allQRs }
+            <div className={styles.tableElements}>
+                { allQRs }
+            </div>
         </div>
     )
 }
