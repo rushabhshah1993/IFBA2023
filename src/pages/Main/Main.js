@@ -116,6 +116,10 @@ const Main = () => {
         setAllQRs(filteredQRs);
     }
 
+    const addGuestBtnClickHandler = () => {
+        window.location.assign('/add-guests');
+    }
+
 
 
     /* Effect hooks */
@@ -160,9 +164,9 @@ const Main = () => {
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <p className={styles.title}>GUESTS LIST</p>
-                <div className={styles.btn}>
-                    <FontAwesomeIcon icon="user-plus" />
-                    Add Guest(s)
+                <div className={styles.btn} onClick={addGuestBtnClickHandler}>
+                    <FontAwesomeIcon icon="user-plus" className={styles.addGuestIcon} />
+                    <span>Add Guest(s)</span>
                 </div>
             </div>
             { searchContainer }
