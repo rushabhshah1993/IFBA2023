@@ -13,18 +13,25 @@ import IFBALogo from '@/assets/images/logo.png';
 
 
 const Main = () => {
+    /* Store data variables */
     const originalGuests = useSelector(state => state.guests.guests);
 
+    /* Local state variables */
     const [allQRs, setAllQRs] = useState([]);
     const [originalQRs, setOriginalQRs] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [guests, setGuests] = useState([]);
     
+    /* Reference variables */
     const qrCodeRefs = useRef([]);
     
+    /* Element variables */
     let tableHeaders = null;
     let searchContainer = null;
 
+
+
+    /* Essential Functions */
     const generateQRCodes = () => {
         let qrArr = originalGuests.map((guest, index) => {
             return (
@@ -97,13 +104,6 @@ const Main = () => {
         }, 5000);
     }
 
-    useEffect(() => {
-        if(originalGuests && originalGuests.length) {
-            setGuests(originalGuests);
-            generateQRCodes();
-        }
-    }, [originalGuests]);
-
     const searchHandler = (event) => {
         setSearchTerm(event.target.value);
         if(event.target.value.length === 0) {
@@ -116,6 +116,20 @@ const Main = () => {
         setAllQRs(filteredQRs);
     }
 
+
+
+    /* Effect hooks */
+    useEffect(() => {
+        if(originalGuests && originalGuests.length) {
+            setGuests(originalGuests);
+            generateQRCodes();
+        }
+    }, [originalGuests]);
+
+    
+
+
+    /* Element creations */
     if(guests && guests.length) {
         tableHeaders = (
             <div className={styles.tableHeaders}>
