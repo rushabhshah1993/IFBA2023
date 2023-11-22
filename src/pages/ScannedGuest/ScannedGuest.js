@@ -2,10 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /* Style imports */
 import styles from './ScannedGuest.scss';
 import isEmpty from 'lodash/isEmpty';
+
+/* Image imports */
+import IFBALogo from '@/assets/images/logo.png';
+
 
 const ScannedGuest = props => {
     const location = useLocation();
@@ -45,14 +50,19 @@ const ScannedGuest = props => {
 
     if(admins.length) {
         console.log(admins);
-        let allAdmins = admins.map((admin) => (
-            <div 
-                className={styles.admin}
-                key={admin.id} 
-                onClick={() => selectAdmin(admin.name)}>
-                { admin.name }
-            </div>
-        ))
+        
+        let allAdmins = admins.map((admin) => {
+            let classNames = [styles.admin];
+            if(selectedAdmin == admin.name) classNames.push(styles.activeAdmin);
+            return (
+                <div 
+                    className={classNames.join(' ')}
+                    key={admin.id} 
+                    onClick={() => selectAdmin(admin.name)}>
+                    { admin.name }
+                </div>
+            )
+        })
         adminElement = (
             <div className={styles.adminsContainer}>
                 { allAdmins }
@@ -64,38 +74,82 @@ const ScannedGuest = props => {
     if(guestData) {
         element = (
             <div className={styles.scannedGuestContainer}>
-                <p>You are checking in {guestData.firstName} {guestData.lastName}</p>
-                <div className={styles.otherInfo}>
-                    <span>{guestData.firstName}'s ID: {guestData.id}</span>
-                    <span>{guestData.firstName}'s Email: {guestData.email}</span>
-                    <span>{guestData.firstName}'s Phone Number: {guestData.phone}</span>
-                    <span>Comments: {guestData.comments}</span>
-                    <span>
-                        {
-                            guestData.plusOnes > 0 ?
-                            `${guestData.firstName} should be accompanied by ${guestData.plusOnes} extras` :
-                            `${guestData.firstName} should have arrived alone` 
-                        }
-                    </span>
-                    <div>
+                <div className={styles.logoContainer}>
+                    <img src={IFBALogo} />
+                </div>
+
+                <p className={styles.guestName}>
+                    You are checking in {guestData.firstName} {guestData.lastName}
+                </p>
+
+                <p>
+                    {
+                        guestData.plusOnes > 0 ?
+                        `${guestData.firstName} should be accompanied by ${guestData.plusOnes} guests` :
+                        `${guestData.firstName} should have arrived alone` 
+                    }
+                </p>
+
+                <p>Additional Information</p>
+                <div className={styles.otherInfo}>                    
+                    {
+                        guestData.id ?
+                        <span className={styles.infoElement}>Guest ID: {guestData.id}</span> :
+                        null
+                    }
+                    {
+                        guestData.email ?
+                        <span className={styles.infoElement}>Email: {guestData.email}</span> :
+                        null
+                    }
+                    {
+                        guestData.phone ?
+                        <span className={styles.infoElement}>Phone Number: {guestData.phone}</span> :
+                        null
+                    }
+                    {
+                        guestData.comments && guestData.comments.length > 0 && guestData.comments !== "-" ?
+                        (
+                            <div className={styles.commentsContainer}>
+                                <span>Comments: </span>
+                                <div className={styles.comments}>{ guestData.comments }</div>
+                            </div>
+                        ) :
+                        null
+                    }
+
+                    <div className={styles.checkboxContainer}>
                         <input 
                             type={'checkbox'} 
                             value={addMoreExtras} 
                             onChange={() => setAddMoreExtras(!addMoreExtras)} />
                         <span>Do you need to check in more guests?</span>
                     </div>
+
                     {
                         addMoreExtras ?
-                        <input type={'number'} value={extrasCount} onChange={extrasChangeHandler} /> :
+                        (
+                            <div className={styles.extraGuestsContainer}>
+                                <label>Additional Guests: </label>
+                                <input 
+                                    type={'number'} 
+                                    value={extrasCount} 
+                                    onChange={extrasChangeHandler}
+                                    placeholder={'Add count of additional guests'} />     
+                            </div>
+                        ) :
                         null
                     }
-                    <div>
-                        Checked in by:
+
+                    <div className={styles.checkedInByContainer}>
+                        <p>Checked in by:</p>
                         { adminElement }
                     </div>
                 </div>
+
                 <div className={styles.checkInBtn} onClick={checkInGuest}>
-                    Check in!
+                    <FontAwesomeIcon icon="user-check" className={styles.userCheckIcon} />
+                    <span>Check in!</span>
                 </div>
             </div>
         )

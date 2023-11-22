@@ -1,8 +1,113 @@
+@import './../../assets/styles/variables.scss';
+@import './../../assets/styles/mixins.scss';
+
 .scannedGuestContainer {
     padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .logoContainer {
+        background-color: $white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        width: 300px;
+        height: 300px;
+
+        @include for-phone-only {
+            width: 100%;
+        }        
+        
+        img {    
+            height: 200px;
+        }
+    }
+
+    .guestName {
+        font-size: 1.25rem;
+        border-bottom: 1px solid #EAEAEA;
+
+        @include for-phone-only {
+            padding-bottom: 1rem;
+            text-align: center;
+        }
+    }
 
     .otherInfo {
         display: flex;
         flex-direction: column;
+        margin-bottom: 1rem;
+
+        .infoElement {
+            margin-bottom: 1rem;
+        }
+    }
+
+    .commentsContainer {
+        margin-bottom: 1rem;
+
+        .comments {
+            background: $white;
+            padding: 8px;
+            color: $primary-black;
+            border-radius: 4px;
+        }
+    }
+
+    .checkboxContainer {
+        display: flex;
+        align-items: center;
+
+        input[type='checkbox'] {
+            min-width: auto;
+        }
+    }
+
+    .extraGuestsContainer {
+        label {
+            margin-right: 1rem;
+        }
+    }
+
+    .adminsContainer {
+        display: flex;
+
+        @include for-phone-only {
+            flex-wrap: wrap;
+            row-gap: 8px;
+        }
+
+        .admin {
+            padding: 8px;
+            border: 1px solid #EAEAEA;
+            border-radius: 4px;
+            margin-right: 8px;
+            cursor: pointer;
+
+            &.activeAdmin {
+                background-color: $dark-pastel-green;
+                color: $white;
+            }
+        }
+    }
+
+    .checkedInByContainer {
+        p {
+            margin-bottom: 8px;
+        }
+    }
+
+    .checkInBtn {
+        border: 1px solid $primary-green;
+        background-color: $dark-pastel-green;
+        padding: 8px;
+        border-radius: 8px;
+        cursor: pointer;
+
+        .userCheckIcon {
+            margin-right: 8px;
+        }
     }
 }
