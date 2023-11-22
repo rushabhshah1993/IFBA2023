@@ -7653,6 +7653,7 @@ const ScannedGuest = props => {
   const [addMoreExtras, setAddMoreExtras] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [selectedAdmin, selectAdmin] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [additionalComment, setAdditionalComment] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [disabledSubmit, disableSubmit] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
 
   /* Set up location and dispatch */
   const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLocation)();
@@ -7661,6 +7662,7 @@ const ScannedGuest = props => {
   /* Elements initialisations */
   let element = null;
   let adminElement = null;
+  let submitClassNames = [_ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].checkInBtn];
 
   /* Location-based initialisations */
   const searchParams = queryStringToObject(location.search);
@@ -7670,6 +7672,11 @@ const ScannedGuest = props => {
     let guest = allGuests.find(guest => guest.id === +searchParams.id);
     if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default()(guest)) setGuestData(guest);
   }, [!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default()(searchParams), allGuests.length]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (selectedAdmin !== null) {
+      disableSubmit(false);
+    }
+  }, [selectedAdmin]);
 
   /* Functions and handlers */
   function queryStringToObject(queryString) {
@@ -7720,6 +7727,9 @@ const ScannedGuest = props => {
       className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].adminsContainer
     }, allAdmins);
   }
+  if (disabledSubmit) {
+    submitClassNames.push(_ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].disabledBtn);
+  }
   if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default()(guestData)) {
     element = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].scannedGuestContainer
@@ -7762,7 +7772,7 @@ const ScannedGuest = props => {
     })) : null, !guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].checkedInByContainer
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Checked in by:"), adminElement) : null), !guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].checkInBtn,
+      className: submitClassNames.join(' '),
       onClick: checkInGuest
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
       icon: "user-check",
@@ -16294,9 +16304,13 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 .scannedGuestContainer__kBmdz .checkInBtn__sKb3z .userCheckIcon__x2Gge {
   margin-right: 8px;
 }
+.scannedGuestContainer__kBmdz .checkInBtn__sKb3z.disabledBtn__lmZj8 {
+  background-color: #C8C8C8;
+  pointer-events: none;
+}
 .scannedGuestContainer__kBmdz .loader__hNsvu {
   margin-right: 8px;
-}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/ScannedGuest/ScannedGuest.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;AALA,WAAA;AAKA,WAAA;ACFA;EACI,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;AAEJ;AAAI;EACI,yBDFA;ECGA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,YAAA;EACA,aAAA;AAER;ACfI;EDMA;IAUQ,WAAA;EAGV;AACF;AADQ;EACI,aAAA;AAGZ;AACI;EACI,kBAAA;EACA,gCAAA;AACR;AC3BI;EDwBA;IAKQ,oBAAA;IACA,kBAAA;EAEV;AACF;AACI;EACI,aAAA;EACA,sBAAA;EACA,mBAAA;AACR;AACQ;EACI,mBAAA;AACZ;AAGI;EACI,mBAAA;AADR;AAGQ;EACI,mBD3CJ;EC4CI,YAAA;EACA,cD/CI;ECgDJ,kBAAA;AADZ;AAKI;EACI,aAAA;EACA,mBAAA;AAHR;AAKQ;EACI,eAAA;AAHZ;AAQQ;EACI,kBAAA;AANZ;AAUI;EACI,aAAA;AARR;AC/DI;EDsEA;IAIQ,eAAA;IACA,YAAA;EAPV;AACF;AASQ;EACI,YAAA;EACA,yBAAA;EACA,kBAAA;EACA,iBAAA;EACA,eAAA;AAPZ;AASY;EACI,yBD/EI;ECgFJ,cDlFR;AC2ER;AAaQ;EACI,kBAAA;AAXZ;AAeI;EACI,yBAAA;EACA,yBD7FY;EC8FZ,YAAA;EACA,kBAAA;EACA,eAAA;AAbR;AAeQ;EACI,iBAAA;AAbZ;AAiBI;EACI,iBAAA;AAfR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n@import './../../assets/styles/mixins.scss';\n\n.scannedGuestContainer {\n    padding: 1rem;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n\n    .logoContainer {\n        background-color: $white;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        border-radius: 50%;\n        width: 300px;\n        height: 300px;\n\n        @include for-phone-only {\n            width: 100%;\n        }        \n        \n        img {    \n            height: 200px;\n        }\n    }\n\n    .guestName {\n        font-size: 1.25rem;\n        border-bottom: 1px solid #EAEAEA;\n\n        @include for-phone-only {\n            padding-bottom: 1rem;\n            text-align: center;\n        }\n    }\n\n    .otherInfo {\n        display: flex;\n        flex-direction: column;\n        margin-bottom: 1rem;\n\n        .infoElement {\n            margin-bottom: 1rem;\n        }\n    }\n\n    .commentsContainer {\n        margin-bottom: 1rem;\n\n        .comments {\n            background: $white;\n            padding: 8px;\n            color: $primary-black;\n            border-radius: 4px;\n        }\n    }\n\n    .checkboxContainer {\n        display: flex;\n        align-items: center;\n\n        input[type='checkbox'] {\n            min-width: auto;\n        }\n    }\n\n    .extraGuestsContainer {\n        label {\n            margin-right: 1rem;\n        }\n    }\n\n    .adminsContainer {\n        display: flex;\n\n        @include for-phone-only {\n            flex-wrap: wrap;\n            row-gap: 8px;\n        }\n\n        .admin {\n            padding: 8px;\n            border: 1px solid #EAEAEA;\n            border-radius: 4px;\n            margin-right: 8px;\n            cursor: pointer;\n\n            &.activeAdmin {\n                background-color: $dark-pastel-green;\n                color: $white;\n            }\n        }\n    }\n\n    .checkedInByContainer {\n        p {\n            margin-bottom: 8px;\n        }\n    }\n\n    .checkInBtn {\n        border: 1px solid $primary-green;\n        background-color: $dark-pastel-green;\n        padding: 8px;\n        border-radius: 8px;\n        cursor: pointer;\n\n        .userCheckIcon {\n            margin-right: 8px;\n        }\n    }\n\n    .loader {\n        margin-right: 8px;\n    }\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/ScannedGuest/ScannedGuest.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;AALA,WAAA;AAKA,WAAA;ACFA;EACI,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;AAEJ;AAAI;EACI,yBDFA;ECGA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,YAAA;EACA,aAAA;AAER;ACfI;EDMA;IAUQ,WAAA;EAGV;AACF;AADQ;EACI,aAAA;AAGZ;AACI;EACI,kBAAA;EACA,gCAAA;AACR;AC3BI;EDwBA;IAKQ,oBAAA;IACA,kBAAA;EAEV;AACF;AACI;EACI,aAAA;EACA,sBAAA;EACA,mBAAA;AACR;AACQ;EACI,mBAAA;AACZ;AAGI;EACI,mBAAA;AADR;AAGQ;EACI,mBD3CJ;EC4CI,YAAA;EACA,cD/CI;ECgDJ,kBAAA;AADZ;AAKI;EACI,aAAA;EACA,mBAAA;AAHR;AAKQ;EACI,eAAA;AAHZ;AAQQ;EACI,kBAAA;AANZ;AAUI;EACI,aAAA;AARR;AC/DI;EDsEA;IAIQ,eAAA;IACA,YAAA;EAPV;AACF;AASQ;EACI,YAAA;EACA,yBAAA;EACA,kBAAA;EACA,iBAAA;EACA,eAAA;AAPZ;AASY;EACI,yBD/EI;ECgFJ,cDlFR;AC2ER;AAaQ;EACI,kBAAA;AAXZ;AAeI;EACI,yBAAA;EACA,yBD7FY;EC8FZ,YAAA;EACA,kBAAA;EACA,eAAA;AAbR;AAeQ;EACI,iBAAA;AAbZ;AAgBQ;EACI,yBDpGI;ECqGJ,oBAAA;AAdZ;AAkBI;EACI,iBAAA;AAhBR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n@import './../../assets/styles/mixins.scss';\n\n.scannedGuestContainer {\n    padding: 1rem;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n\n    .logoContainer {\n        background-color: $white;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        border-radius: 50%;\n        width: 300px;\n        height: 300px;\n\n        @include for-phone-only {\n            width: 100%;\n        }        \n        \n        img {    \n            height: 200px;\n        }\n    }\n\n    .guestName {\n        font-size: 1.25rem;\n        border-bottom: 1px solid #EAEAEA;\n\n        @include for-phone-only {\n            padding-bottom: 1rem;\n            text-align: center;\n        }\n    }\n\n    .otherInfo {\n        display: flex;\n        flex-direction: column;\n        margin-bottom: 1rem;\n\n        .infoElement {\n            margin-bottom: 1rem;\n        }\n    }\n\n    .commentsContainer {\n        margin-bottom: 1rem;\n\n        .comments {\n            background: $white;\n            padding: 8px;\n            color: $primary-black;\n            border-radius: 4px;\n        }\n    }\n\n    .checkboxContainer {\n        display: flex;\n        align-items: center;\n\n        input[type='checkbox'] {\n            min-width: auto;\n        }\n    }\n\n    .extraGuestsContainer {\n        label {\n            margin-right: 1rem;\n        }\n    }\n\n    .adminsContainer {\n        display: flex;\n\n        @include for-phone-only {\n            flex-wrap: wrap;\n            row-gap: 8px;\n        }\n\n        .admin {\n            padding: 8px;\n            border: 1px solid #EAEAEA;\n            border-radius: 4px;\n            margin-right: 8px;\n            cursor: pointer;\n\n            &.activeAdmin {\n                background-color: $dark-pastel-green;\n                color: $white;\n            }\n        }\n    }\n\n    .checkedInByContainer {\n        p {\n            margin-bottom: 8px;\n        }\n    }\n\n    .checkInBtn {\n        border: 1px solid $primary-green;\n        background-color: $dark-pastel-green;\n        padding: 8px;\n        border-radius: 8px;\n        cursor: pointer;\n\n        .userCheckIcon {\n            margin-right: 8px;\n        }\n\n        &.disabledBtn {\n            background-color: $disabled-grey;\n            pointer-events: none;\n        }\n    }\n\n    .loader {\n        margin-right: 8px;\n    }\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"scannedGuestContainer": `scannedGuestContainer__kBmdz`,
@@ -16314,6 +16328,7 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"checkedInByContainer": `checkedInByContainer__lOC7V`,
 	"checkInBtn": `checkInBtn__sKb3z`,
 	"userCheckIcon": `userCheckIcon__x2Gge`,
+	"disabledBtn": `disabledBtn__lmZj8`,
 	"loader": `loader__hNsvu`
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
