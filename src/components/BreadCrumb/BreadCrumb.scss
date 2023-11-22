@@ -18,6 +18,11 @@
             align-items: center;
             padding: 1rem;
             font-size: 14px;
+            border-right: 1px solid #EAEAEA;
+
+            &:last-child {
+                border-right: 0;
+            }
 
             &.active {
                 background-color: $primary-green;

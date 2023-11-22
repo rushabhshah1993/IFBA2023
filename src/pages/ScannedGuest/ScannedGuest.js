@@ -4,6 +4,9 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+/* Component imports */
+import Modal from '@/components/Modal/Modal';
+
 /* Style imports */
 import styles from './ScannedGuest.scss';
 import isEmpty from 'lodash/isEmpty';
@@ -28,7 +31,7 @@ const ScannedGuest = props => {
     useEffect(() => {
         let guest = allGuests.find(guest => guest.id === +searchParams.id);
         if(!isEmpty(guest)) setGuestData(guest);
-    }, [!isEmpty(searchParams), allGuests.length])
+    }, [!isEmpty(searchParams), allGuests.length]);
 
     function queryStringToObject(queryString) {
         const params = new URLSearchParams(queryString);
@@ -49,8 +52,6 @@ const ScannedGuest = props => {
 
 
     if(admins.length) {
-        console.log(admins);
-        
         let allAdmins = admins.map((admin) => {
             let classNames = [styles.admin];
             if(selectedAdmin == admin.name) classNames.push(styles.activeAdmin);
@@ -70,8 +71,7 @@ const ScannedGuest = props => {
         )
     }
 
-
-    if(guestData) {
+    if(!isEmpty(guestData)) {
         element = (
             <div className={styles.scannedGuestContainer}>
                 <div className={styles.logoContainer}>
@@ -152,6 +152,18 @@ const ScannedGuest = props => {
                     <span>Check in!</span>
                 </div>
             </div>
+        )
+    } else {
+        element = (
+            <Modal>
+                <FontAwesomeIcon 
+                    icon="spinner" 
+                    spin 
+                    className={styles.loader}
+                    style={{ marginRight: '8px' }}
+                    size={'3x'}/>
+                <span>Loading guest data...</span>
+            </Modal> 
         )
     }
 
