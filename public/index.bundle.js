@@ -7022,7 +7022,7 @@ const AddGuest = () => {
       email: email,
       phone: phone,
       comments: comments || "-",
-      link: `https://www.google.com/search?q=${firstName}%20${lastName}`,
+      link: `https://ifba-23.web.app/scanned-guest?id=${guests.length + 1}`,
       id: guests.length + 1,
       plusOnesEntered: 0,
       entry: false,
@@ -7174,6 +7174,13 @@ const Home = () => {
   const [pendingGuests, setPendingGuests] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const guests = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.guests.guests);
   let checkedInElement, pendingGuestsElement;
+
+  /* Functions and handlers */
+  const logViewHandler = id => {
+    window.location.assign(`/scanned-guest?id=${id}`);
+  };
+
+  /* Effects */
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     const interval = setInterval(() => {
       setCurrentCount(prevCount => {
@@ -7198,13 +7205,18 @@ const Home = () => {
     setCheckedInGuests(checkedInGuests);
     setPendingGuests(pendingGuests);
   }, [guests]);
+
+  /* Elements */
   if (checkedInGuests.length) {
     checkedInElement = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: _Home_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkedInWrapper
     }, checkedInGuests.map((guest, index) => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       key: guest.id,
-      className: _Home_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkedInGuest
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, guest.firstName, " ", guest.lastName, " was checked in with ", guest.plusOnesEntered, " extra(s) by ", guest.checkIn.checkedInBy, " at ", new Date(guest.checkIn.checkedInAt).toLocaleTimeString()))));
+      className: _Home_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkedInGuest,
+      onClick: () => logViewHandler(guest.id)
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: _Home_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkedInText
+    }, guest.firstName, " ", guest.lastName, " was checked in with ", +guest.plusOnes + +guest.plusOnesEntered, " extra(s) by ", guest.checkIn.checkedInBy, " at ", new Date(guest.checkIn.checkedInAt).toLocaleTimeString()))));
   } else {
     checkedInElement = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
       className: _Home_scss__WEBPACK_IMPORTED_MODULE_3__["default"].nothingToShowHere
@@ -7468,8 +7480,13 @@ const Main = () => {
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, "# ", index + 1), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: _Main_scss__WEBPACK_IMPORTED_MODULE_5__["default"].guestInfo
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+        className: _Main_scss__WEBPACK_IMPORTED_MODULE_5__["default"].nameContainer
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
         className: _Main_scss__WEBPACK_IMPORTED_MODULE_5__["default"].name
-      }, guest.firstName, " ", guest.lastName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
+      }, guest.firstName, " ", guest.lastName), guest.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_4__.FontAwesomeIcon, {
+        icon: "user-check",
+        className: _Main_scss__WEBPACK_IMPORTED_MODULE_5__["default"].userCheckedIn
+      }) : null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
         className: _Main_scss__WEBPACK_IMPORTED_MODULE_5__["default"].email
       }, guest.email), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
         className: _Main_scss__WEBPACK_IMPORTED_MODULE_5__["default"].phone
@@ -7596,16 +7613,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fortawesome/react-fontawesome */ "./node_modules/@fortawesome/react-fontawesome/index.es.js");
-/* harmony import */ var _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ScannedGuest.scss */ "./src/pages/ScannedGuest/ScannedGuest.scss");
-/* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! lodash/isEmpty */ "./node_modules/lodash/isEmpty.js");
-/* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/assets/images/logo.png */ "./src/assets/images/logo.png");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash/cloneDeep */ "./node_modules/lodash/cloneDeep.js");
+/* harmony import */ var lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_Modal_Modal__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/components/Modal/Modal */ "./src/components/Modal/Modal.js");
+/* harmony import */ var _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ScannedGuest.scss */ "./src/pages/ScannedGuest/ScannedGuest.scss");
+/* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! lodash/isEmpty */ "./node_modules/lodash/isEmpty.js");
+/* harmony import */ var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/assets/images/logo.png */ "./src/assets/images/logo.png");
+/* harmony import */ var _store_slices_guestSlice__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @/store/slices/guestSlice */ "./src/store/slices/guestSlice.js");
 /* Package imports */
 
 
 
+
+
+
+/* Component imports */
 
 
 /* Style imports */
@@ -7614,21 +7639,39 @@ __webpack_require__.r(__webpack_exports__);
 
 /* Image imports */
 
+
+/* Store imports */
+
 const ScannedGuest = props => {
-  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_6__.useLocation)();
-  const searchParams = queryStringToObject(location.search);
+  /* Global store data fetch */
   const allGuests = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.guests.guests);
   const admins = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useSelector)(state => state.members.members);
-  let element = null;
-  let adminElement = null;
+
+  /* Local state */
   const [guestData, setGuestData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({});
   const [extrasCount, setExtrasCount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(1);
   const [addMoreExtras, setAddMoreExtras] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const [selectedAdmin, selectAdmin] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [additionalComment, setAdditionalComment] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+
+  /* Set up location and dispatch */
+  const location = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_9__.useLocation)();
+  const dispatch = (0,react_redux__WEBPACK_IMPORTED_MODULE_1__.useDispatch)();
+
+  /* Elements initialisations */
+  let element = null;
+  let adminElement = null;
+
+  /* Location-based initialisations */
+  const searchParams = queryStringToObject(location.search);
+
+  /* Effects */
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     let guest = allGuests.find(guest => guest.id === +searchParams.id);
-    if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(guest)) setGuestData(guest);
-  }, [!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(searchParams), allGuests.length]);
+    if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default()(guest)) setGuestData(guest);
+  }, [!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default()(searchParams), allGuests.length]);
+
+  /* Functions and handlers */
   function queryStringToObject(queryString) {
     const params = new URLSearchParams(queryString);
     const result = {};
@@ -7641,13 +7684,32 @@ const ScannedGuest = props => {
     setExtrasCount(event.target.value);
   };
   const checkInGuest = () => {
-    console.log("Here");
+    let updatedGuests = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_3___default()(allGuests);
+    for (let guest of updatedGuests) {
+      if (guest.id === +searchParams.id) {
+        if (extrasCount) guest.plusOnesEntered = +extrasCount;
+        if (additionalComment.length) guest.comments += `\n Entry comments: ${additionalComment}`;
+        guest.checkIn.checkedInBy = selectedAdmin;
+        guest.checkIn.checkedInAt = new Date().toISOString();
+        guest.entry = true;
+        break;
+      }
+    }
+    let request = dispatch((0,_store_slices_guestSlice__WEBPACK_IMPORTED_MODULE_8__.updateGuestEntry)(updatedGuests));
+    request.then(() => {
+      alert(`${guestData.firstName} ${guestData.lastName} has been successfully checked in!`);
+      window.location.assign('/');
+    }).catch(error => {
+      console.error("Error in updating guest entry:  ", entry);
+      alert(`There has been a failure in adding ${firstName} ${lastName} to the database. Kindly connect with Rushabh.`);
+    });
   };
+
+  /* Elements */
   if (admins.length) {
-    console.log(admins);
     let allAdmins = admins.map(admin => {
-      let classNames = [_ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].admin];
-      if (selectedAdmin == admin.name) classNames.push(_ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].activeAdmin);
+      let classNames = [_ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].admin];
+      if (selectedAdmin == admin.name) classNames.push(_ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].activeAdmin);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
         className: classNames.join(' '),
         key: admin.id,
@@ -7655,52 +7717,67 @@ const ScannedGuest = props => {
       }, admin.name);
     });
     adminElement = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].adminsContainer
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].adminsContainer
     }, allAdmins);
   }
-  if (guestData) {
+  if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_6___default()(guestData)) {
     element = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].scannedGuestContainer
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].scannedGuestContainer
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].logoContainer
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].logoContainer
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", {
-      src: _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_5__["default"]
+      src: _assets_images_logo_png__WEBPACK_IMPORTED_MODULE_7__["default"]
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].guestName
-    }, "You are checking in ", guestData.firstName, " ", guestData.lastName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, guestData.plusOnes > 0 ? `${guestData.firstName} should be accompanied by ${guestData.plusOnes} guests` : `${guestData.firstName} should have arrived alone`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Additional Information"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].otherInfo
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].guestName
+    }, guestData.entry ? `${guestData.firstName} ${guestData.lastName} was checked in by ${guestData.checkIn.checkedInBy} on ${new Date(guestData.checkIn.checkedInAt)}` : `You are checking in ${guestData.firstName} ${guestData.lastName}`), guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, guestData.firstName, " arrived with ", guestData.plusOnes, " registered guest(s)", guestData.plusOnesEntered ? ` and ${guestData.plusOnesEntered} additional guest(s) on entry.` : '.') : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, guestData.plusOnes > 0 ? `${guestData.firstName} should be accompanied by ${guestData.plusOnes} guests` : `${guestData.firstName} should have arrived alone`), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Additional Information"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].otherInfo
     }, guestData.id ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].infoElement
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].infoElement
     }, "Guest ID: ", guestData.id) : null, guestData.email ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].infoElement
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].infoElement
     }, "Email: ", guestData.email) : null, guestData.phone ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].infoElement
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].infoElement
     }, "Phone Number: ", guestData.phone) : null, guestData.comments && guestData.comments.length > 0 && guestData.comments !== "-" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].commentsContainer
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].commentsContainer
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Comments: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].comments
-    }, guestData.comments)) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkboxContainer
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].comments
+    }, guestData.comments)) : null, !guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("textarea", {
+      value: additionalComment,
+      onChange: event => setAdditionalComment(event.target.value),
+      placeholder: 'Add additional comments',
+      rows: 5
+    }) : null, !guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].checkboxContainer
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
       type: 'checkbox',
       value: addMoreExtras,
       onChange: () => setAddMoreExtras(!addMoreExtras)
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Do you need to check in more guests?")), addMoreExtras ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].extraGuestsContainer
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Do you need to check in more guests?")) : null, addMoreExtras ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].extraGuestsContainer
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", null, "Additional Guests: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", {
       type: 'number',
       value: extrasCount,
       onChange: extrasChangeHandler,
       placeholder: 'Add count of additional guests'
-    })) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkedInByContainer
-    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Checked in by:"), adminElement)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].checkInBtn,
+    })) : null, !guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].checkedInByContainer
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "Checked in by:"), adminElement) : null), !guestData.entry ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].checkInBtn,
       onClick: checkInGuest
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
       icon: "user-check",
-      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_3__["default"].userCheckIcon
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Check in!")));
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].userCheckIcon
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Check in!")) : null);
+  } else {
+    element = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_Modal_Modal__WEBPACK_IMPORTED_MODULE_4__["default"], null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_fortawesome_react_fontawesome__WEBPACK_IMPORTED_MODULE_2__.FontAwesomeIcon, {
+      icon: "spinner",
+      spin: true,
+      className: _ScannedGuest_scss__WEBPACK_IMPORTED_MODULE_5__["default"].loader,
+      style: {
+        marginRight: '8px'
+      },
+      size: '3x'
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "Loading guest data..."));
   }
   return element;
 };
@@ -7720,7 +7797,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   addGuestToDatabase: () => (/* binding */ addGuestToDatabase),
 /* harmony export */   addGuestsListToStore: () => (/* binding */ addGuestsListToStore),
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   fetchGuestList: () => (/* binding */ fetchGuestList)
+/* harmony export */   fetchGuestList: () => (/* binding */ fetchGuestList),
+/* harmony export */   updateGuestEntry: () => (/* binding */ updateGuestEntry)
 /* harmony export */ });
 /* harmony import */ var _reduxjs_toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @reduxjs/toolkit */ "./node_modules/@reduxjs/toolkit/dist/redux-toolkit.esm.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
@@ -7758,6 +7836,14 @@ const addGuestToDatabase = data => async (dispatch, getState) => {
   let updatedGuests = lodash_cloneDeep__WEBPACK_IMPORTED_MODULE_0___default()(state.guests.guests);
   updatedGuests.push(data);
   return axios__WEBPACK_IMPORTED_MODULE_2__["default"].put('https://ifba-23-default-rtdb.firebaseio.com/guests.json', updatedGuests).then(response => {
+    dispatch(fetchGuestList());
+    return response;
+  }).catch(error => {
+    console.error("Error in adding the guest:  ", error);
+  });
+};
+const updateGuestEntry = data => async (dispatch, getState) => {
+  return axios__WEBPACK_IMPORTED_MODULE_2__["default"].put('https://ifba-23-default-rtdb.firebaseio.com/guests.json', data).then(response => {
     dispatch(fetchGuestList());
     return response;
   }).catch(error => {
@@ -15322,6 +15408,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
   align-items: center;
   padding: 1rem;
   font-size: 14px;
+  border-right: 1px solid #EAEAEA;
+}
+.breadcrumb__t3v1A .navList__InNIf a:last-child {
+  border-right: 0;
 }
 .breadcrumb__t3v1A .navList__InNIf a.active__d8c7F {
   background-color: #65de2e;
@@ -15329,7 +15419,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 .breadcrumb__t3v1A img {
   height: 50px;
   margin-right: 1rem;
-}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/components/BreadCrumb/BreadCrumb.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;ACHA;EACI,yBDKI;ECJJ,aAAA;AACJ;AACI;EACI,aAAA;EACA,mBAAA;AACR;AACQ;EACI,qBAAA;EACA,cDNI;ECOJ,yBAAA;EACA,YAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,aAAA;EACA,eAAA;AACZ;AACY;EACI,yBDbA;ACchB;AAII;EACI,YAAA;EACA,kBAAA;AAFR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n\n.breadcrumb {\n    background-color: $white;\n    display: flex;\n\n    .navList {\n        display: flex;\n        align-items: center;\n\n        a {\n            text-decoration: none;\n            color: $primary-black;\n            text-transform: uppercase;\n            height: 100%;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 1rem;\n            font-size: 14px;\n\n            &.active {\n                background-color: $primary-green;\n            }\n        }\n    }\n\n    img {\n        height: 50px;\n        margin-right: 1rem;\n    }\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/components/BreadCrumb/BreadCrumb.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;ACHA;EACI,yBDKI;ECJJ,aAAA;AACJ;AACI;EACI,aAAA;EACA,mBAAA;AACR;AACQ;EACI,qBAAA;EACA,cDNI;ECOJ,yBAAA;EACA,YAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,aAAA;EACA,eAAA;EACA,+BAAA;AACZ;AACY;EACI,eAAA;AAChB;AAEY;EACI,yBDlBA;ACkBhB;AAKI;EACI,YAAA;EACA,kBAAA;AAHR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n\n.breadcrumb {\n    background-color: $white;\n    display: flex;\n\n    .navList {\n        display: flex;\n        align-items: center;\n\n        a {\n            text-decoration: none;\n            color: $primary-black;\n            text-transform: uppercase;\n            height: 100%;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            padding: 1rem;\n            font-size: 14px;\n            border-right: 1px solid #EAEAEA;\n\n            &:last-child {\n                border-right: 0;\n            }\n\n            &.active {\n                background-color: $primary-green;\n            }\n        }\n    }\n\n    img {\n        height: 50px;\n        margin-right: 1rem;\n    }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"breadcrumb": `breadcrumb__t3v1A`,
@@ -15721,14 +15811,12 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 .homeContainer__nqkD6 .guestsCounter__cwisz .checkedInContainer__zKxgM {
   border-right: 1px solid #EAEAEA;
   height: 350px;
+  padding-right: 1rem;
 }
 @media screen and (max-width: 430px) {
   .homeContainer__nqkD6 .guestsCounter__cwisz .checkedInContainer__zKxgM {
     border-right: 0;
   }
-}
-.homeContainer__nqkD6 .guestsCounter__cwisz .checkedInContainer__zKxgM .checkedInWrapper__Aqn_W {
-  padding: 0 1rem;
 }
 .homeContainer__nqkD6 .guestsCounter__cwisz .checkedInContainer__zKxgM .checkedInGuest__DacZS {
   display: flex;
@@ -15743,6 +15831,9 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 }
 .homeContainer__nqkD6 .guestsCounter__cwisz .checkedInContainer__zKxgM .checkedInGuest__DacZS:last-child {
   margin-bottom: 0;
+}
+.homeContainer__nqkD6 .guestsCounter__cwisz .checkedInContainer__zKxgM .checkedInGuest__DacZS .checkedInText__LxCOz {
+  text-align: right;
 }
 .homeContainer__nqkD6 .guestsCounter__cwisz .pendingGuests__LSGtl .pendingGuest__oHv76 {
   display: flex;
@@ -15761,7 +15852,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
   display: flex;
   justify-content: center;
   align-items: center;
-}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/Home/Home.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;ACHA;EACI,aAAA;AACJ;AACI;EACI,0BAAA;EACA,iBAAA;AACR;AAEI;EACI,aAAA;EACA,qCAAA;EACA,gBAAA;EACA,oBAAA;EACA,mBAAA;EACA,gCAAA;AAAR;ACbI;EDOA;IASQ,aAAA;IACA,sBAAA;EACV;AACF;AAEY;EACI,yBDdA;ACchB;AAGY;EACI,yBDjBD;ACgBf;AAOQ;EACI,kBAAA;EACA,0BAAA;AALZ;AAQQ;EACI,aAAA;EACA,8BAAA;EACA,cAAA;EACA,aAAA;AANZ;ACnCI;EDqCI;IAOQ,aAAA;IACA,sBAAA;EALd;AACF;AAQQ;EACI,+BAAA;EACA,aAAA;AANZ;AC7CI;EDiDI;IAKQ,eAAA;EALd;AACF;AAOY;EACI,eAAA;AALhB;AAQY;EACI,aAAA;EACA,mBAAA;EACA,8BAAA;EACA,mBAAA;EACA,gBAAA;EACA,gCAAA;EACA,kBAAA;EACA,gBAAA;EACA,mBAAA;AANhB;AAQgB;EACI,gBAAA;AANpB;AAYY;EACI,aAAA;EACA,mBAAA;EACA,8BAAA;EACA,mBAAA;EACA,YAAA;EACA,gCAAA;EACA,kBAAA;AAVhB;AAYgB;EACI,gBAAA;AAVpB;AAgBI;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;AAdR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/mixins.scss';\n\n.homeContainer {\n    padding: 1rem;\n\n    .welcomeMsg {\n        text-transform: capitalize;\n        font-size: 1.5rem;\n    }\n\n    .metricWrapper {\n        display: grid;\n        grid-template-columns: repeat(3, 1fr);\n        column-gap: 3rem; \n        padding-bottom: 1rem;\n        margin-bottom: 1rem;\n        border-bottom: 1px solid #EAEAEA;\n\n        @include for-phone-only {\n            display: flex;\n            flex-direction: column;\n        }\n\n        .metric {\n            &:first-child {\n                background-color: $tyrian-purple;\n            }\n\n            &:last-child {\n                background-color: $burnt-sienna;\n            }\n        }\n    }\n\n    .guestsCounter {\n        .guestsHeader {\n            font-size: 1.25rem;\n            text-transform: capitalize;\n        }\n\n        .guestsContainer {\n            display: grid;\n            grid-template-columns: 68% 28%;\n            column-gap: 4%;\n            height: 400px;\n\n            @include for-phone-only {\n                display: flex;\n                flex-direction: column;\n            }\n        }\n        \n        .checkedInContainer {\n            border-right: 1px solid #EAEAEA;\n            height: 350px;\n\n            @include for-phone-only {\n                border-right: 0;\n            }\n\n            .checkedInWrapper {\n                padding: 0 1rem;\n            }\n\n            .checkedInGuest {\n                display: flex;\n                flex-direction: row;\n                justify-content: space-between;\n                align-items: center;\n                min-height: 40px;\n                border-bottom: 1px solid #353535;\n                margin-bottom: 8px;\n                column-gap: 1rem;\n                padding-bottom: 8px;\n\n                &:last-child {\n                    margin-bottom: 0;\n                }\n            }\n        }\n\n        .pendingGuests {\n            .pendingGuest {\n                display: flex;\n                flex-direction: row;\n                justify-content: space-between;\n                align-items: center;\n                height: 40px;\n                border-bottom: 1px solid #353535;\n                margin-bottom: 8px;\n\n                &:last-child {\n                    margin-bottom: 0;\n                }\n            }\n        }\n    }\n\n    .nothingToShowHere {\n        height: 50%;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n    }\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/Home/Home.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;ACHA;EACI,aAAA;AACJ;AACI;EACI,0BAAA;EACA,iBAAA;AACR;AAEI;EACI,aAAA;EACA,qCAAA;EACA,gBAAA;EACA,oBAAA;EACA,mBAAA;EACA,gCAAA;AAAR;ACbI;EDOA;IASQ,aAAA;IACA,sBAAA;EACV;AACF;AAEY;EACI,yBDdA;ACchB;AAGY;EACI,yBDjBD;ACgBf;AAOQ;EACI,kBAAA;EACA,0BAAA;AALZ;AAQQ;EACI,aAAA;EACA,8BAAA;EACA,cAAA;EACA,aAAA;AANZ;ACnCI;EDqCI;IAOQ,aAAA;IACA,sBAAA;EALd;AACF;AAQQ;EACI,+BAAA;EACA,aAAA;EACA,mBAAA;AANZ;AC9CI;EDiDI;IAMQ,eAAA;EALd;AACF;AAOY;EACI,aAAA;EACA,mBAAA;EACA,8BAAA;EACA,mBAAA;EACA,gBAAA;EACA,gCAAA;EACA,kBAAA;EACA,gBAAA;EACA,mBAAA;AALhB;AAOgB;EACI,gBAAA;AALpB;AAQgB;EACI,iBAAA;AANpB;AAYY;EACI,aAAA;EACA,mBAAA;EACA,8BAAA;EACA,mBAAA;EACA,YAAA;EACA,gCAAA;EACA,kBAAA;AAVhB;AAYgB;EACI,gBAAA;AAVpB;AAgBI;EACI,WAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;AAdR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/mixins.scss';\n\n.homeContainer {\n    padding: 1rem;\n\n    .welcomeMsg {\n        text-transform: capitalize;\n        font-size: 1.5rem;\n    }\n\n    .metricWrapper {\n        display: grid;\n        grid-template-columns: repeat(3, 1fr);\n        column-gap: 3rem; \n        padding-bottom: 1rem;\n        margin-bottom: 1rem;\n        border-bottom: 1px solid #EAEAEA;\n\n        @include for-phone-only {\n            display: flex;\n            flex-direction: column;\n        }\n\n        .metric {\n            &:first-child {\n                background-color: $tyrian-purple;\n            }\n\n            &:last-child {\n                background-color: $burnt-sienna;\n            }\n        }\n    }\n\n    .guestsCounter {\n        .guestsHeader {\n            font-size: 1.25rem;\n            text-transform: capitalize;\n        }\n\n        .guestsContainer {\n            display: grid;\n            grid-template-columns: 68% 28%;\n            column-gap: 4%;\n            height: 400px;\n\n            @include for-phone-only {\n                display: flex;\n                flex-direction: column;\n            }\n        }\n        \n        .checkedInContainer {\n            border-right: 1px solid #EAEAEA;\n            height: 350px;\n            padding-right: 1rem;\n\n            @include for-phone-only {\n                border-right: 0;\n            }\n\n            .checkedInGuest {\n                display: flex;\n                flex-direction: row;\n                justify-content: space-between;\n                align-items: center;\n                min-height: 40px;\n                border-bottom: 1px solid #353535;\n                margin-bottom: 8px;\n                column-gap: 1rem;\n                padding-bottom: 8px;\n\n                &:last-child {\n                    margin-bottom: 0;\n                }\n\n                .checkedInText {\n                    text-align: right;\n                }\n            }\n        }\n\n        .pendingGuests {\n            .pendingGuest {\n                display: flex;\n                flex-direction: row;\n                justify-content: space-between;\n                align-items: center;\n                height: 40px;\n                border-bottom: 1px solid #353535;\n                margin-bottom: 8px;\n\n                &:last-child {\n                    margin-bottom: 0;\n                }\n            }\n        }\n    }\n\n    .nothingToShowHere {\n        height: 50%;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n    }\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"homeContainer": `homeContainer__nqkD6`,
@@ -15772,8 +15863,8 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"guestsHeader": `guestsHeader__apO3o`,
 	"guestsContainer": `guestsContainer__buLjY`,
 	"checkedInContainer": `checkedInContainer__zKxgM`,
-	"checkedInWrapper": `checkedInWrapper__Aqn_W`,
 	"checkedInGuest": `checkedInGuest__DacZS`,
+	"checkedInText": `checkedInText__LxCOz`,
 	"pendingGuests": `pendingGuests__LSGtl`,
 	"pendingGuest": `pendingGuest__oHv76`,
 	"nothingToShowHere": `nothingToShowHere__oE4oj`
@@ -16006,8 +16097,14 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 }
 
 @media screen and (max-width: 430px) {
-  .guestInfo__eiqbv .name__EvTCK {
+  .guestInfo__eiqbv .nameContainer__vdLZY {
     font-size: 1.25rem;
+  }
+  .guestInfo__eiqbv .nameContainer__vdLZY .name__EvTCK {
+    margin-right: 8px;
+  }
+  .guestInfo__eiqbv .nameContainer__vdLZY .userCheckedIn__bVTAS {
+    color: #01B636;
   }
   .guestInfo__eiqbv .email__n1MFF,
   .guestInfo__eiqbv .phone___7Ptp {
@@ -16045,10 +16142,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 }
 
 .tableElements__V_DO9 {
-  height: 60vh;
+  height: 70vh;
   overflow: hidden;
   overflow-y: scroll;
-}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/Main/Main.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;AALA,WAAA;AAKA,WAAA;ACFA;EACI,aAAA;AAEJ;;AACA;EACI,iBAAA;EACA,yBAAA;AAEJ;;AACA;EACI,WAAA;AAEJ;;AACA;;EAEI,aAAA;EACA,qCAAA;EACA,8BAAA;EACA,WAAA;EACA,gCAAA;EACA,kBAAA;EACA,mBAAA;AAEJ;;AACA;EAKI,mBAAA;EACA,gBAAA;AAFJ;AC5BI;EDwBJ;IAEQ,aAAA;EAMN;AACF;AADI;EACI,aAAA;EACA,uBAAA;EACA,mBAAA;AAGR;;ACtCI;EDuCJ;IAMQ,aAAA;IACA,sBAAA;IACA,aAAA;IACA,oBAAA;EAFN;EALM;IACI,aAAA;EAOV;AACF;;AAEA;EACI,aAAA;EACA,mBAAA;EACA,uBAAA;AACJ;ACxDI;EDoDJ;IAMQ,eAAA;EAEN;AACF;;AACA;EACI,YAAA;EACA,yBDzDgB;EC0DhB,yBAAA;EACA,cD7DI;EC8DJ,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,eAAA;EACA,YAAA;AAEJ;AAAI;EACI,yBDrEQ;ACuEhB;;AAEA;EACI,sBAAA;EACA,YAAA;EACA,uBAAA;EACA,mBAAA;EACA,yBD/EI;ECgFJ,cDlFY;ECmFZ,aAAA;AACJ;AACI;EACI,aAAA;AACR;AC1FI;ED6FI;IACI,UAAA;EAAV;AACF;;AAIA;EACI,aAAA;EACA,6BAAA;EACA,mBAAA;AADJ;ACrGI;EDmGJ;IAMQ,sBAAA;IACA,aAAA;EAAN;AACF;;AC3GI;EDgHI;IACI,kBAAA;EADV;EAIM;;IAEI,eAAA;EAFV;AACF;;AAMA;EACI,kBAAA;AAHJ;AAKI;EACI,kBAAA;EACA,WAAA;EACA,SAAA;EACA,YAAA;AAHR;;AAOA;EACI,aAAA;EACA,8BAAA;EACA,mBAAA;AAJJ;AAMI;EACI,yBAAA;EACA,yBDtIY;ECuIZ,YAAA;EACA,kBAAA;EACA,eAAA;AAJR;AAMQ;EACI,yBD7II;ACyIhB;AAOQ;EACI,iBAAA;AALZ;;AAUA;EACI,YAAA;EACA,gBAAA;EACA,kBAAA;AAPJ","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n@import './../../assets/styles/mixins.scss';\n\n.wrapper {\n    padding: 1rem;\n}\n\n.title {\n    font-size: 1.5rem;\n    text-transform: uppercase;\n}\n\n.search {\n    width: 100%;\n}\n\n.guestRow,\n.tableHeaders {\n    display: grid;\n    grid-template-columns: 5% 20% 40% 35%;\n    justify-content: space-between;\n    padding: 2%;\n    border-bottom: 1px solid #EAEAEA;\n    margin-bottom: 8px;\n    align-items: center;\n}\n\n.tableHeaders {\n    @include for-phone-only {\n        display: none;\n    }\n\n    border-bottom: none;\n    margin-bottom: 0;\n\n    div {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n    }\n}\n\n.guestRow {\n    @include for-phone-only {\n        div:first-child {\n            display: none;\n        }\n\n        display: flex;\n        flex-direction: column;\n        row-gap: 1rem;\n        padding-bottom: 1rem;\n    }\n}\n\n.comments  {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n\n    @include for-phone-only {\n        font-size: 12px;;\n    }\n}\n\n.downloadBtn {\n    height: 40px;\n    background-color: $dark-pastel-green;\n    border: 1px solid $primary-green;\n    color: $white;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 8px;\n    cursor: pointer;\n    padding: 8px;\n\n    &:hover {\n        background-color: $primary-green;\n    }\n}\n\n.downloadCard {\n    flex-direction: column;\n    padding: 10%;\n    justify-content: center;\n    align-items: center;\n    background-color: $white; \n    color: $primary-black;\n    display: none;\n    \n    &.showDownloadTemplate {\n        display: flex;\n    }\n\n    @include for-phone-only {\n        .logoContainer {\n            width: 75%;\n        }\n    }\n}\n\n.qrColumn {\n    display: flex;\n    justify-content: space-around;\n    align-items: center;\n\n    @include for-phone-only {\n        flex-direction: column;\n        row-gap: 1rem;\n    }\n}\n\n.guestInfo {\n    @include for-phone-only {\n        .name {\n            font-size: 1.25rem;\n        }\n\n        .email,\n        .phone {\n            font-size: 12px;\n        }\n    }\n}\n\n.searchContainer {\n    position: relative;\n\n    .searchIcon {\n        position: absolute;\n        right: 10px;\n        top: 12px;\n        color: black;\n    }\n}\n\n.header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n\n    .btn {\n        border: 1px solid $primary-green;\n        background-color: $dark-pastel-green;\n        padding: 8px;\n        border-radius: 8px;\n        cursor: pointer;\n\n        &:hover {\n            background-color: $primary-green;\n        }\n\n        .addGuestIcon {\n            margin-right: 4px;\n        }\n    }\n}\n\n.tableElements {\n    height: 60vh;\n    overflow: hidden;\n    overflow-y: scroll;\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
+}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/Main/Main.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;AALA,WAAA;AAKA,WAAA;ACFA;EACI,aAAA;AAEJ;;AACA;EACI,iBAAA;EACA,yBAAA;AAEJ;;AACA;EACI,WAAA;AAEJ;;AACA;;EAEI,aAAA;EACA,qCAAA;EACA,8BAAA;EACA,WAAA;EACA,gCAAA;EACA,kBAAA;EACA,mBAAA;AAEJ;;AACA;EAKI,mBAAA;EACA,gBAAA;AAFJ;AC5BI;EDwBJ;IAEQ,aAAA;EAMN;AACF;AADI;EACI,aAAA;EACA,uBAAA;EACA,mBAAA;AAGR;;ACtCI;EDuCJ;IAMQ,aAAA;IACA,sBAAA;IACA,aAAA;IACA,oBAAA;EAFN;EALM;IACI,aAAA;EAOV;AACF;;AAEA;EACI,aAAA;EACA,mBAAA;EACA,uBAAA;AACJ;ACxDI;EDoDJ;IAMQ,eAAA;EAEN;AACF;;AACA;EACI,YAAA;EACA,yBDzDgB;EC0DhB,yBAAA;EACA,cD7DI;EC8DJ,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,eAAA;EACA,YAAA;AAEJ;AAAI;EACI,yBDrEQ;ACuEhB;;AAEA;EACI,sBAAA;EACA,YAAA;EACA,uBAAA;EACA,mBAAA;EACA,yBD/EI;ECgFJ,cDlFY;ECmFZ,aAAA;AACJ;AACI;EACI,aAAA;AACR;AC1FI;ED6FI;IACI,UAAA;EAAV;AACF;;AAIA;EACI,aAAA;EACA,6BAAA;EACA,mBAAA;AADJ;ACrGI;EDmGJ;IAMQ,sBAAA;IACA,aAAA;EAAN;AACF;;AC3GI;EDgHI;IACI,kBAAA;EADV;EAGU;IACI,iBAAA;EADd;EAIU;IACI,cDjHI;EC+GlB;EAMM;;IAEI,eAAA;EAJV;AACF;;AAQA;EACI,kBAAA;AALJ;AAOI;EACI,kBAAA;EACA,WAAA;EACA,SAAA;EACA,YAAA;AALR;;AASA;EACI,aAAA;EACA,8BAAA;EACA,mBAAA;AANJ;AAQI;EACI,yBAAA;EACA,yBD9IY;EC+IZ,YAAA;EACA,kBAAA;EACA,eAAA;AANR;AAQQ;EACI,yBDrJI;AC+IhB;AASQ;EACI,iBAAA;AAPZ;;AAYA;EACI,YAAA;EACA,gBAAA;EACA,kBAAA;AATJ","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n@import './../../assets/styles/mixins.scss';\n\n.wrapper {\n    padding: 1rem;\n}\n\n.title {\n    font-size: 1.5rem;\n    text-transform: uppercase;\n}\n\n.search {\n    width: 100%;\n}\n\n.guestRow,\n.tableHeaders {\n    display: grid;\n    grid-template-columns: 5% 20% 40% 35%;\n    justify-content: space-between;\n    padding: 2%;\n    border-bottom: 1px solid #EAEAEA;\n    margin-bottom: 8px;\n    align-items: center;\n}\n\n.tableHeaders {\n    @include for-phone-only {\n        display: none;\n    }\n\n    border-bottom: none;\n    margin-bottom: 0;\n\n    div {\n        display: flex;\n        justify-content: center;\n        align-items: center;\n    }\n}\n\n.guestRow {\n    @include for-phone-only {\n        div:first-child {\n            display: none;\n        }\n\n        display: flex;\n        flex-direction: column;\n        row-gap: 1rem;\n        padding-bottom: 1rem;\n    }\n}\n\n.comments  {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n\n    @include for-phone-only {\n        font-size: 12px;;\n    }\n}\n\n.downloadBtn {\n    height: 40px;\n    background-color: $dark-pastel-green;\n    border: 1px solid $primary-green;\n    color: $white;\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    border-radius: 8px;\n    cursor: pointer;\n    padding: 8px;\n\n    &:hover {\n        background-color: $primary-green;\n    }\n}\n\n.downloadCard {\n    flex-direction: column;\n    padding: 10%;\n    justify-content: center;\n    align-items: center;\n    background-color: $white; \n    color: $primary-black;\n    display: none;\n    \n    &.showDownloadTemplate {\n        display: flex;\n    }\n\n    @include for-phone-only {\n        .logoContainer {\n            width: 75%;\n        }\n    }\n}\n\n.qrColumn {\n    display: flex;\n    justify-content: space-around;\n    align-items: center;\n\n    @include for-phone-only {\n        flex-direction: column;\n        row-gap: 1rem;\n    }\n}\n\n.guestInfo {\n    @include for-phone-only {\n        .nameContainer {\n            font-size: 1.25rem;\n\n            .name {\n                margin-right: 8px;\n            }\n\n            .userCheckedIn {\n                color: $dark-pastel-green;\n            }\n        }\n\n        .email,\n        .phone {\n            font-size: 12px;\n        }\n    }\n}\n\n.searchContainer {\n    position: relative;\n\n    .searchIcon {\n        position: absolute;\n        right: 10px;\n        top: 12px;\n        color: black;\n    }\n}\n\n.header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n\n    .btn {\n        border: 1px solid $primary-green;\n        background-color: $dark-pastel-green;\n        padding: 8px;\n        border-radius: 8px;\n        cursor: pointer;\n\n        &:hover {\n            background-color: $primary-green;\n        }\n\n        .addGuestIcon {\n            margin-right: 4px;\n        }\n    }\n}\n\n.tableElements {\n    height: 70vh;\n    overflow: hidden;\n    overflow-y: scroll;\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"wrapper": `wrapper__NnHVJ`,
@@ -16063,7 +16160,9 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"logoContainer": `logoContainer__OXpPr`,
 	"qrColumn": `qrColumn__uiyh5`,
 	"guestInfo": `guestInfo__eiqbv`,
+	"nameContainer": `nameContainer__vdLZY`,
 	"name": `name__EvTCK`,
+	"userCheckedIn": `userCheckedIn__bVTAS`,
 	"email": `email__n1MFF`,
 	"phone": `phone___7Ptp`,
 	"searchContainer": `searchContainer__ZIp6x`,
@@ -16194,7 +16293,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, `/* Common */
 }
 .scannedGuestContainer__kBmdz .checkInBtn__sKb3z .userCheckIcon__x2Gge {
   margin-right: 8px;
-}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/ScannedGuest/ScannedGuest.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;AALA,WAAA;AAKA,WAAA;ACFA;EACI,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;AAEJ;AAAI;EACI,yBDFA;ECGA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,YAAA;EACA,aAAA;AAER;ACfI;EDMA;IAUQ,WAAA;EAGV;AACF;AADQ;EACI,aAAA;AAGZ;AACI;EACI,kBAAA;EACA,gCAAA;AACR;AC3BI;EDwBA;IAKQ,oBAAA;IACA,kBAAA;EAEV;AACF;AACI;EACI,aAAA;EACA,sBAAA;EACA,mBAAA;AACR;AACQ;EACI,mBAAA;AACZ;AAGI;EACI,mBAAA;AADR;AAGQ;EACI,mBD3CJ;EC4CI,YAAA;EACA,cD/CI;ECgDJ,kBAAA;AADZ;AAKI;EACI,aAAA;EACA,mBAAA;AAHR;AAKQ;EACI,eAAA;AAHZ;AAQQ;EACI,kBAAA;AANZ;AAUI;EACI,aAAA;AARR;AC/DI;EDsEA;IAIQ,eAAA;IACA,YAAA;EAPV;AACF;AASQ;EACI,YAAA;EACA,yBAAA;EACA,kBAAA;EACA,iBAAA;EACA,eAAA;AAPZ;AASY;EACI,yBD/EI;ECgFJ,cDlFR;AC2ER;AAaQ;EACI,kBAAA;AAXZ;AAeI;EACI,yBAAA;EACA,yBD7FY;EC8FZ,YAAA;EACA,kBAAA;EACA,eAAA;AAbR;AAeQ;EACI,iBAAA;AAbZ","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n@import './../../assets/styles/mixins.scss';\n\n.scannedGuestContainer {\n    padding: 1rem;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n\n    .logoContainer {\n        background-color: $white;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        border-radius: 50%;\n        width: 300px;\n        height: 300px;\n\n        @include for-phone-only {\n            width: 100%;\n        }        \n        \n        img {    \n            height: 200px;\n        }\n    }\n\n    .guestName {\n        font-size: 1.25rem;\n        border-bottom: 1px solid #EAEAEA;\n\n        @include for-phone-only {\n            padding-bottom: 1rem;\n            text-align: center;\n        }\n    }\n\n    .otherInfo {\n        display: flex;\n        flex-direction: column;\n        margin-bottom: 1rem;\n\n        .infoElement {\n            margin-bottom: 1rem;\n        }\n    }\n\n    .commentsContainer {\n        margin-bottom: 1rem;\n\n        .comments {\n            background: $white;\n            padding: 8px;\n            color: $primary-black;\n            border-radius: 4px;\n        }\n    }\n\n    .checkboxContainer {\n        display: flex;\n        align-items: center;\n\n        input[type='checkbox'] {\n            min-width: auto;\n        }\n    }\n\n    .extraGuestsContainer {\n        label {\n            margin-right: 1rem;\n        }\n    }\n\n    .adminsContainer {\n        display: flex;\n\n        @include for-phone-only {\n            flex-wrap: wrap;\n            row-gap: 8px;\n        }\n\n        .admin {\n            padding: 8px;\n            border: 1px solid #EAEAEA;\n            border-radius: 4px;\n            margin-right: 8px;\n            cursor: pointer;\n\n            &.activeAdmin {\n                background-color: $dark-pastel-green;\n                color: $white;\n            }\n        }\n    }\n\n    .checkedInByContainer {\n        p {\n            margin-bottom: 8px;\n        }\n    }\n\n    .checkInBtn {\n        border: 1px solid $primary-green;\n        background-color: $dark-pastel-green;\n        padding: 8px;\n        border-radius: 8px;\n        cursor: pointer;\n\n        .userCheckIcon {\n            margin-right: 8px;\n        }\n    }\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
+}
+.scannedGuestContainer__kBmdz .loader__hNsvu {
+  margin-right: 8px;
+}`, "",{"version":3,"sources":["webpack://./src/assets/styles/variables.scss","webpack://./src/pages/ScannedGuest/ScannedGuest.scss","webpack://./src/assets/styles/mixins.scss"],"names":[],"mappings":"AAAA,WAAA;AAKA,WAAA;AALA,WAAA;AAKA,WAAA;ACFA;EACI,aAAA;EACA,aAAA;EACA,sBAAA;EACA,mBAAA;AAEJ;AAAI;EACI,yBDFA;ECGA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,kBAAA;EACA,YAAA;EACA,aAAA;AAER;ACfI;EDMA;IAUQ,WAAA;EAGV;AACF;AADQ;EACI,aAAA;AAGZ;AACI;EACI,kBAAA;EACA,gCAAA;AACR;AC3BI;EDwBA;IAKQ,oBAAA;IACA,kBAAA;EAEV;AACF;AACI;EACI,aAAA;EACA,sBAAA;EACA,mBAAA;AACR;AACQ;EACI,mBAAA;AACZ;AAGI;EACI,mBAAA;AADR;AAGQ;EACI,mBD3CJ;EC4CI,YAAA;EACA,cD/CI;ECgDJ,kBAAA;AADZ;AAKI;EACI,aAAA;EACA,mBAAA;AAHR;AAKQ;EACI,eAAA;AAHZ;AAQQ;EACI,kBAAA;AANZ;AAUI;EACI,aAAA;AARR;AC/DI;EDsEA;IAIQ,eAAA;IACA,YAAA;EAPV;AACF;AASQ;EACI,YAAA;EACA,yBAAA;EACA,kBAAA;EACA,iBAAA;EACA,eAAA;AAPZ;AASY;EACI,yBD/EI;ECgFJ,cDlFR;AC2ER;AAaQ;EACI,kBAAA;AAXZ;AAeI;EACI,yBAAA;EACA,yBD7FY;EC8FZ,YAAA;EACA,kBAAA;EACA,eAAA;AAbR;AAeQ;EACI,iBAAA;AAbZ;AAiBI;EACI,iBAAA;AAfR","sourcesContent":["/* Common */\n$mobile-max-width: 430px;\n$tab-min-width: 431px;\n$tab-max-width: 1024px;\n\n/* Colors */\n$primary-black: #010101;\n$secondary-black: #333333;\n$white: #ffffff;\n$primary-green: #65de2e;\n$dark-pastel-green: #01B636;\n$tyrian-purple: #5F1A37;\n$burnt-sienna: #E07A5F;\n$disabled-grey: #C8C8C8;\n\n\n","@import './../../assets/styles/variables.scss';\n@import './../../assets/styles/mixins.scss';\n\n.scannedGuestContainer {\n    padding: 1rem;\n    display: flex;\n    flex-direction: column;\n    align-items: center;\n\n    .logoContainer {\n        background-color: $white;\n        display: flex;\n        justify-content: center;\n        align-items: center;\n        border-radius: 50%;\n        width: 300px;\n        height: 300px;\n\n        @include for-phone-only {\n            width: 100%;\n        }        \n        \n        img {    \n            height: 200px;\n        }\n    }\n\n    .guestName {\n        font-size: 1.25rem;\n        border-bottom: 1px solid #EAEAEA;\n\n        @include for-phone-only {\n            padding-bottom: 1rem;\n            text-align: center;\n        }\n    }\n\n    .otherInfo {\n        display: flex;\n        flex-direction: column;\n        margin-bottom: 1rem;\n\n        .infoElement {\n            margin-bottom: 1rem;\n        }\n    }\n\n    .commentsContainer {\n        margin-bottom: 1rem;\n\n        .comments {\n            background: $white;\n            padding: 8px;\n            color: $primary-black;\n            border-radius: 4px;\n        }\n    }\n\n    .checkboxContainer {\n        display: flex;\n        align-items: center;\n\n        input[type='checkbox'] {\n            min-width: auto;\n        }\n    }\n\n    .extraGuestsContainer {\n        label {\n            margin-right: 1rem;\n        }\n    }\n\n    .adminsContainer {\n        display: flex;\n\n        @include for-phone-only {\n            flex-wrap: wrap;\n            row-gap: 8px;\n        }\n\n        .admin {\n            padding: 8px;\n            border: 1px solid #EAEAEA;\n            border-radius: 4px;\n            margin-right: 8px;\n            cursor: pointer;\n\n            &.activeAdmin {\n                background-color: $dark-pastel-green;\n                color: $white;\n            }\n        }\n    }\n\n    .checkedInByContainer {\n        p {\n            margin-bottom: 8px;\n        }\n    }\n\n    .checkInBtn {\n        border: 1px solid $primary-green;\n        background-color: $dark-pastel-green;\n        padding: 8px;\n        border-radius: 8px;\n        cursor: pointer;\n\n        .userCheckIcon {\n            margin-right: 8px;\n        }\n    }\n\n    .loader {\n        margin-right: 8px;\n    }\n}\n","@import './variables.scss';\n\n@mixin for-phone-only {\n    @media screen and (max-width: $mobile-max-width) { @content; }\n}\n"],"sourceRoot":""}]);
 // Exports
 ___CSS_LOADER_EXPORT___.locals = {
 	"scannedGuestContainer": `scannedGuestContainer__kBmdz`,
@@ -16211,7 +16313,8 @@ ___CSS_LOADER_EXPORT___.locals = {
 	"activeAdmin": `activeAdmin__sOtDw`,
 	"checkedInByContainer": `checkedInByContainer__lOC7V`,
 	"checkInBtn": `checkInBtn__sKb3z`,
-	"userCheckIcon": `userCheckIcon__x2Gge`
+	"userCheckIcon": `userCheckIcon__x2Gge`,
+	"loader": `loader__hNsvu`
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
