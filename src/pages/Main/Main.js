@@ -39,7 +39,14 @@ const Main = () => {
                     <div className={styles.guestRow}>
                         <div># {index+1}</div>
                         <div className={styles.guestInfo}>
-                            <p className={styles.name}>{guest.firstName} {guest.lastName}</p>
+                            <p className={styles.nameContainer}>
+                                <span className={styles.name}>{guest.firstName} {guest.lastName}</span>
+                                {
+                                    guest.entry ?
+                                    <FontAwesomeIcon icon="user-check" className={styles.userCheckedIn} /> :
+                                    null
+                                }
+                            </p>
                             <p className={styles.email}>{guest.email}</p>
                             <p className={styles.phone}>{guest.number}</p>
                         </div>

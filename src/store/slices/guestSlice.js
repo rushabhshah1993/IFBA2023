@@ -45,4 +45,16 @@ export const addGuestToDatabase = (data) => async (dispatch, getState) => {
     })
 }
 
+export const updateGuestEntry = data => async (dispatch, getState) => {
+    return axios.put('https://ifba-23-default-rtdb.firebaseio.com/guests.json', data)
+    .then(response => {
+        dispatch(fetchGuestList());
+        return response;
+    })
+    .catch(error => {
+        console.error("Error in adding the guest:  ", error);
+    })
+}
+    
+
 export default slice.reducer; 

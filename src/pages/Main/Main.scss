@@ -113,8 +113,16 @@
 
 .guestInfo {
     @include for-phone-only {
-        .name {
+        .nameContainer {
             font-size: 1.25rem;
+
+            .name {
+                margin-right: 8px;
+            }
+
+            .userCheckedIn {
+                color: $dark-pastel-green;
+            }
         }
 
         .email,
@@ -158,7 +166,7 @@
 }
 
 .tableElements {
-    height: 60vh;
+    height: 70vh;
     overflow: hidden;
     overflow-y: scroll;
 }

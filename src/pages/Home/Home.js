@@ -20,6 +20,15 @@ const Home = () => {
     const guests = useSelector(state => state.guests.guests);
     let checkedInElement, pendingGuestsElement;
 
+
+
+    /* Functions and handlers */
+    const logViewHandler = (id) => {
+        window.location.assign(`/scanned-guest?id=${id}`);
+    }
+
+
+    /* Effects */
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentCount(prevCount => {
@@ -47,15 +56,18 @@ const Home = () => {
         setPendingGuests(pendingGuests);
     }, [guests]);
 
+
+
+    /* Elements */
     if(checkedInGuests.length) {
         checkedInElement = (
             <div className={styles.checkedInWrapper}>
                 {
                     checkedInGuests.map((guest, index) => (
-                        <div key={guest.id} className={styles.checkedInGuest}>
+                        <div key={guest.id} className={styles.checkedInGuest} onClick={() => logViewHandler(guest.id)}>
                             <div>{index+1}</div>
-                            <div>
-                                {guest.firstName} {guest.lastName} was checked in with {guest.plusOnesEntered} extra(s) by {guest.checkIn.checkedInBy} at {new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}
+                            <div className={styles.checkedInText}>
+                                {guest.firstName} {guest.lastName} was checked in with {+guest.plusOnes + +guest.plusOnesEntered} extra(s) by {guest.checkIn.checkedInBy} at {new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}
                             </div>
                         </div>
                     ))

@@ -47,7 +47,7 @@ const AddGuest = () => {
             email: email,
             phone: phone,
             comments: comments || "-",
-            link: `https://www.google.com/search?q=${firstName}%20${lastName}`,
+            link: `https://ifba-23.web.app/scanned-guest?id=${guests.length+1}`,
             id: guests.length + 1,
             plusOnesEntered: 0,
             entry: false,

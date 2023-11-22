@@ -1,8 +1,9 @@
 /* Package imports */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import cloneDeep from 'lodash/cloneDeep';
 
 /* Component imports */
 import Modal from '@/components/Modal/Modal';
@@ -14,25 +15,45 @@ import isEmpty from 'lodash/isEmpty';
 /* Image imports */
 import IFBALogo from '@/assets/images/logo.png';
 
+/* Store imports */
+import { updateGuestEntry } from '@/store/slices/guestSlice';
+
 
 const ScannedGuest = props => {
-    const location = useLocation();
-    const searchParams = queryStringToObject(location.search);
+    /* Global store data fetch */
     const allGuests = useSelector(state => state.guests.guests);
     const admins = useSelector(state => state.members.members);
-    let element = null;
-    let adminElement = null;
     
+    /* Local state */
     const [guestData, setGuestData] = useState({});
     const [extrasCount, setExtrasCount] = useState(1);
     const [addMoreExtras, setAddMoreExtras] = useState(false);
     const [selectedAdmin, selectAdmin] = useState(null);
+    const [additionalComment, setAdditionalComment] = useState('');
+    
+    /* Set up location and dispatch */
+    const location = useLocation();
+    const dispatch = useDispatch();
+    
+    /* Elements initialisations */
+    let element = null;
+    let adminElement = null;
 
+    /* Location-based initialisations */
+    const searchParams = queryStringToObject(location.search);
+
+
+
+    /* Effects */
     useEffect(() => {
         let guest = allGuests.find(guest => guest.id === +searchParams.id);
         if(!isEmpty(guest)) setGuestData(guest);
     }, [!isEmpty(searchParams), allGuests.length]);
 
+
+
+
+    /* Functions and handlers */
     function queryStringToObject(queryString) {
         const params = new URLSearchParams(queryString);
         const result = {};
@@ -47,10 +68,32 @@ const ScannedGuest = props => {
     }
 
     const checkInGuest = () => {
-        console.log("Here");
+        let updatedGuests = cloneDeep(allGuests);
+        for(let guest of updatedGuests) {
+            if(guest.id === +searchParams.id) {
+                if(extrasCount) guest.plusOnesEntered = +extrasCount;
+                if(additionalComment.length) guest.comments += `\n Entry comments: ${additionalComment}`;
+                guest.checkIn.checkedInBy = selectedAdmin;
+                guest.checkIn.checkedInAt = new Date().toISOString();
+                guest.entry = true;
+                break;
+            }
+        }
+        let request = dispatch(updateGuestEntry(updatedGuests));
+        request.then(() => {
+            alert(`${guestData.firstName} ${guestData.lastName} has been successfully checked in!`);
+            window.location.assign('/');
+        })
+        .catch(error => {
+            console.error("Error in updating guest entry:  ", entry);
+            alert(`There has been a failure in adding ${firstName} ${lastName} to the database. Kindly connect with Rushabh.`);
+        })
     }
 
 
+
+
+    /* Elements */
     if(admins.length) {
         let allAdmins = admins.map((admin) => {
             let classNames = [styles.admin];
@@ -79,16 +122,35 @@ const ScannedGuest = props => {
                 </div>
 
                 <p className={styles.guestName}>
-                    You are checking in {guestData.firstName} {guestData.lastName}
-                </p>
-
-                <p>
                     {
-                        guestData.plusOnes > 0 ?
-                        `${guestData.firstName} should be accompanied by ${guestData.plusOnes} guests` :
-                        `${guestData.firstName} should have arrived alone` 
+                        guestData.entry ?
+                        `${guestData.firstName} ${guestData.lastName} was checked in by ${guestData.checkIn.checkedInBy} on ${new Date(guestData.checkIn.checkedInAt)}`:
+                        `You are checking in ${guestData.firstName} ${guestData.lastName}`
                     }
                 </p>
+
+                {
+                    guestData.entry ?
+                    (
+                        <p>
+                            {guestData.firstName} arrived with {guestData.plusOnes} registered guest(s) 
+                            {
+                                guestData.plusOnesEntered ?
+                                ` and ${guestData.plusOnesEntered} additional guest(s) on entry.` :
+                                '.'
+                            }
+                        </p>
+                    ) :
+                    (
+                        <p>
+                            {
+                                guestData.plusOnes > 0 ?
+                                `${guestData.firstName} should be accompanied by ${guestData.plusOnes} guests` :
+                                `${guestData.firstName} should have arrived alone` 
+                            }
+                        </p>
+                    )
+                }
 
                 <p>Additional Information</p>
                 <div className={styles.otherInfo}>                    
@@ -118,13 +180,31 @@ const ScannedGuest = props => {
                         null
                     }
 
-                    <div className={styles.checkboxContainer}>
-                        <input 
-                            type={'checkbox'} 
-                            value={addMoreExtras} 
-                            onChange={() => setAddMoreExtras(!addMoreExtras)} />
-                        <span>Do you need to check in more guests?</span>
-                    </div>
+                    {
+                        !guestData.entry ?
+                        (
+                            <textarea 
+                                value={additionalComment} 
+                                onChange={(event) => setAdditionalComment(event.target.value)}
+                                placeholder={'Add additional comments'}
+                                rows={5} /> 
+                        ):
+                        null
+                    }
+
+                    {
+                        !guestData.entry ?
+                        (
+                            <div className={styles.checkboxContainer}>
+                                <input 
+                                    type={'checkbox'} 
+                                    value={addMoreExtras} 
+                                    onChange={() => setAddMoreExtras(!addMoreExtras)} />
+                                <span>Do you need to check in more guests?</span>
+                            </div>
+                        ) :
+                        null
+                    }
 
                     {
                         addMoreExtras ?
@@ -141,16 +221,28 @@ const ScannedGuest = props => {
                         null
                     }
 
-                    <div className={styles.checkedInByContainer}>
-                        <p>Checked in by:</p>
-                        { adminElement }
-                    </div>
+                    {
+                        !guestData.entry ?
+                        (    
+                            <div className={styles.checkedInByContainer}>
+                                <p>Checked in by:</p>
+                                { adminElement }
+                            </div>
+                        ) : 
+                        null
+                    }
                 </div>
 
-                <div className={styles.checkInBtn} onClick={checkInGuest}>
-                    <FontAwesomeIcon icon="user-check" className={styles.userCheckIcon} />
-                    <span>Check in!</span>
-                </div>
+                {
+                    !guestData.entry ?
+                    (
+                        <div className={styles.checkInBtn} onClick={checkInGuest}>
+                            <FontAwesomeIcon icon="user-check" className={styles.userCheckIcon} />
+                            <span>Check in!</span>
+                        </div>
+                    ) :
+                    null
+                }
             </div>
         )
     } else {
