@@ -109,6 +109,11 @@
         .userCheckIcon {
             margin-right: 8px;
         }
+
+        &.disabledBtn {
+            background-color: $disabled-grey;
+            pointer-events: none;
+        }
     }
 
     .loader {

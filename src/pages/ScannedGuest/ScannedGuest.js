@@ -30,6 +30,7 @@ const ScannedGuest = props => {
     const [addMoreExtras, setAddMoreExtras] = useState(false);
     const [selectedAdmin, selectAdmin] = useState(null);
     const [additionalComment, setAdditionalComment] = useState('');
+    const [disabledSubmit, disableSubmit] = useState(true);
     
     /* Set up location and dispatch */
     const location = useLocation();
@@ -38,6 +39,7 @@ const ScannedGuest = props => {
     /* Elements initialisations */
     let element = null;
     let adminElement = null;
+    let submitClassNames = [styles.checkInBtn];
 
     /* Location-based initialisations */
     const searchParams = queryStringToObject(location.search);
@@ -50,6 +52,11 @@ const ScannedGuest = props => {
         if(!isEmpty(guest)) setGuestData(guest);
     }, [!isEmpty(searchParams), allGuests.length]);
 
+    useEffect(() => {
+        if(selectedAdmin !== null) {
+            disableSubmit(false);
+        }
+    }, [selectedAdmin])
 
 
 
@@ -112,6 +119,10 @@ const ScannedGuest = props => {
                 { allAdmins }
             </div>
         )
+    }
+
+    if(disabledSubmit) {
+        submitClassNames.push(styles.disabledBtn);
     }
 
     if(!isEmpty(guestData)) {
@@ -236,7 +247,7 @@ const ScannedGuest = props => {
                 {
                     !guestData.entry ?
                     (
-                        <div className={styles.checkInBtn} onClick={checkInGuest}>
+                        <div className={submitClassNames.join(' ')} onClick={checkInGuest}>
                             <FontAwesomeIcon icon="user-check" className={styles.userCheckIcon} />
                             <span>Check in!</span>
                         </div>
