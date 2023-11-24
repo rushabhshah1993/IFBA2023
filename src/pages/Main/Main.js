@@ -106,7 +106,11 @@ const Main = () => {
             const qrImage = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
             const link = document.createElement('a');
             link.href = qrImage;
-            link.download = `${guest.firstName} ${guest.lastName} - IFBA'23 Invitation.png`;
+            if(guest.firstName && guest.lastName) {
+                link.download = `${guest.firstName} ${guest.lastName} - IFBA'23 Invitation.png`;
+            } else {
+                link.download = `Guest ${guest.id} - IFBA'23 Invitation.png`;
+            }
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -115,9 +119,9 @@ const Main = () => {
             console.error('Error generating QR code image:', error);
         });
 
-        // setTimeout(() => {
-        //     downloadTemplate.style.display = 'none';
-        // }, 5000);
+        setTimeout(() => {
+            downloadTemplate.style.display = 'none';
+        }, 5000);
     }
 
     const searchHandler = (event) => {
