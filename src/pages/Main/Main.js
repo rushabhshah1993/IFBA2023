@@ -43,7 +43,11 @@ const Main = () => {
                         <div># {index+1}</div>
                         <div className={styles.guestInfo}>
                             <p className={styles.nameContainer}>
-                                <span className={styles.name}>{guest.firstName} {guest.lastName}</span>
+                                {
+                                    guest.firstName && guest.lastName ?
+                                    <span className={styles.name}>{guest.firstName} {guest.lastName}</span> :
+                                    <span className={styles.name}>No name provided for guest {guest.id}</span>
+                                }
                                 {
                                     guest.entry ?
                                     <FontAwesomeIcon icon="user-check" className={styles.userCheckedIn} /> :

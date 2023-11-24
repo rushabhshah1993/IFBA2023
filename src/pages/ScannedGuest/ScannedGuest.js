@@ -132,19 +132,33 @@ const ScannedGuest = props => {
                     <img src={IFBALogo} />
                 </div>
 
-                <p className={styles.guestName}>
-                    {
-                        guestData.entry ?
-                        `${guestData.firstName} ${guestData.lastName} was checked in by ${guestData.checkIn.checkedInBy} on ${new Date(guestData.checkIn.checkedInAt)}`:
-                        `You are checking in ${guestData.firstName} ${guestData.lastName}`
-                    }
-                </p>
+                {
+                    guestData.firstName && guestData.lastName ?
+                    (
+                        <p className={styles.guestName}>
+                            {
+                                guestData.entry ?
+                                `${guestData.firstName} ${guestData.lastName} was checked in by ${guestData.checkIn.checkedInBy} on ${new Date(guestData.checkIn.checkedInAt)}`:
+                                `You are checking in ${guestData.firstName} ${guestData.lastName}`
+                            }
+                        </p>
+                    ) :
+                    (
+                        <p className={styles.guestName}>
+                            {
+                                guestData.entry ?
+                                `${guestData.id} was checked in by ${guestData.checkIn.checkedInBy} on ${new Date(guestData.checkIn.checkedInAt)}`:
+                                `You are checking in guests with ID: ${guestData.id}`
+                            }
+                        </p>
+                    )
+                }
 
                 {
                     guestData.entry ?
                     (
                         <p>
-                            {guestData.firstName} arrived with {guestData.plusOnes} registered guest(s) 
+                            Guest {guestData.id} arrived with {guestData.plusOnes} registered guest(s) 
                             {
                                 guestData.plusOnesEntered ?
                                 ` and ${guestData.plusOnesEntered} additional guest(s) on entry.` :
@@ -156,8 +170,8 @@ const ScannedGuest = props => {
                         <p>
                             {
                                 guestData.plusOnes > 0 ?
-                                `${guestData.firstName} should be accompanied by ${guestData.plusOnes} guests` :
-                                `${guestData.firstName} should have arrived alone` 
+                                `Guest ${guestData.id} should be accompanied by ${guestData.plusOnes} guests` :
+                                `Guest ${guestData.id} should have arrived alone` 
                             }
                         </p>
                     )

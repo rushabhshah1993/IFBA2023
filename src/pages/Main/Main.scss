@@ -112,6 +112,12 @@
 }
 
 .guestInfo {
+    .nameContainer {
+        .name {
+            margin-right: 8px;
+        }
+    }
+
     @include for-phone-only {
         .nameContainer {
             font-size: 1.25rem;

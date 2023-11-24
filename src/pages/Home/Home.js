@@ -67,7 +67,11 @@ const Home = () => {
                         <div key={guest.id} className={styles.checkedInGuest} onClick={() => logViewHandler(guest.id)}>
                             <div>{index+1}</div>
                             <div className={styles.checkedInText}>
-                                {guest.firstName} {guest.lastName} was checked in with {+guest.plusOnes + +guest.plusOnesEntered} extra(s) by {guest.checkIn.checkedInBy} at {new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}
+                                {
+                                    guest.firstName && guest.lastName ?
+                                    `${guest.firstName} ${guest.lastName} was checked in with ${+guest.plusOnes + +guest.plusOnesEntered} extra(s) by ${guest.checkIn.checkedInBy} at ${new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}` :
+                                    `Guest ${guest.id} was checked in with ${+guest.plusOnes + +guest.plusOnesEntered} extra(s) by ${guest.checkIn.checkedInBy} at ${new Date(guest.checkIn.checkedInAt).toLocaleTimeString()}`
+                                }
                             </div>
                         </div>
                     ))
@@ -89,7 +93,13 @@ const Home = () => {
                     pendingGuests.map((guest, index) => (
                         <div key={guest.id} className={styles.pendingGuest}>
                             <div>{index+1}</div>
-                            <div>{guest.firstName} {guest.lastName} with {guest.plusOnes} guests</div>
+                            <div>
+                                {
+                                    guest.firstName && guest.lastName ?
+                                    `${guest.firstName} ${guest.lastName} with ${guest.plusOnes} guests` : 
+                                    `Guest ${guest.id} with ${guest.plusOnes} guests`
+                                }
+                            </div>
                         </div>
                     ))
                 }
