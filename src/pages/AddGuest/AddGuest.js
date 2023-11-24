@@ -60,7 +60,12 @@ const AddGuest = () => {
         let addRequest = dispatch(addGuestToDatabase(finalGuestInfo));
         addRequest.then(response => {
             if(response) {
-                let addMoreGuests = confirm(`Guest ${firstName} ${lastName} has been added successfully to the database. Do you wish to add more guests?`);
+                let addMoreGuests;
+                if(guests.firstName && guests.lastName) {
+                    addMoreGuests = confirm(`Guest ${firstName} ${lastName} has been added successfully to the database. Do you wish to add more guests?`);
+                } else {
+                    addMoreGuests = confirm(`Guest has been added successfully to the database. Do you wish to add more guests?`);
+                }
                 if(addMoreGuests) resetForm();
                 else {
                     resetForm();

@@ -103,4 +103,10 @@
         justify-content: center;
         align-items: center;
     }
+
+    .yetToArriveCounter {
+        height: 50vh;
+        overflow: hidden;
+        overflow-y: scroll;
+    }
 }
