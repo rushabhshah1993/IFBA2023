@@ -11,6 +11,9 @@ import styles from './Main.scss';
 /* Image imports */
 import IFBALogo from '@/assets/images/logo.png';
 
+/* Component imports */
+import GuestInvite from '@/components/GuestInvite/GuestInvite';
+
 
 const Main = () => {
     /* Store data variables */
@@ -60,7 +63,7 @@ const Main = () => {
                             </div>
                         </div>
                     </div>
-                    <div className={styles.downloadCard} ref={(ref) => (qrCodeRefs.current[index] = ref)}>
+                    {/* <div className={styles.downloadCard} ref={(ref) => (qrCodeRefs.current[index] = ref)}>
                         <img src={IFBALogo} className={styles.logoContainer} />
                         <div className={styles.content}>
                             <p>Dear {guest.firstName} {guest.lastName},</p>
@@ -75,6 +78,11 @@ const Main = () => {
                             </p>
                         </div>
                         <QRCodeSVG value={guest.link} />
+                    </div> */}
+                    <div className={styles.previewCard}>
+                        <div ref={(ref) => (qrCodeRefs.current[index] = ref)}>
+                            <GuestInvite guest={guest} />
+                        </div>
                     </div>
                 </React.Fragment>
             )

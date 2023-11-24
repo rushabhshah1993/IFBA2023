@@ -87,7 +87,7 @@
     align-items: center;
     background-color: $white; 
     color: $primary-black;
-    display: none;
+    display: flex;
     
     &.showDownloadTemplate {
         display: flex;
@@ -169,4 +169,10 @@
     height: 70vh;
     overflow: hidden;
     overflow-y: scroll;
+}
+
+.previewCard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
