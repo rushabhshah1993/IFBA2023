@@ -8,7 +8,8 @@ $card-dimensions: 1000px;
     background-color: $white;
     color: $primary-black;
     height: $card-dimensions;
-    width: $card-dimensions;
+    width: 100%;
+    // width: $card-dimensions;
     position: relative;
     overflow: hidden;
 
@@ -113,7 +114,7 @@ $card-dimensions: 1000px;
 
             .headlineText {
                 // margin-top: 40%;
-                margin-top: 50%;
+                margin-top: 80%;
                 // font-size: 1.5rem;
                 font-size: 3rem;
             }

@@ -59,7 +59,7 @@
     justify-content: center;
 
     @include for-phone-only {
-        font-size: 12px;;
+        font-size: 12px;
     }
 }
 
@@ -87,7 +87,7 @@
     align-items: center;
     background-color: $white; 
     color: $primary-black;
-    display: flex;
+    display: none;
     
     &.showDownloadTemplate {
         display: flex;
@@ -175,4 +175,9 @@
     width: 100%;
     display: flex;
     justify-content: center;
+
+    .preview {
+        width: 100%;
+        // display: none;
+    }
 }

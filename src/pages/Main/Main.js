@@ -80,7 +80,7 @@ const Main = () => {
                         <QRCodeSVG value={guest.link} />
                     </div> */}
                     <div className={styles.previewCard}>
-                        <div ref={(ref) => (qrCodeRefs.current[index] = ref)}>
+                        <div className={styles.preview} ref={(ref) => (qrCodeRefs.current[index] = ref)}>
                             <GuestInvite guest={guest} />
                         </div>
                     </div>
@@ -98,6 +98,7 @@ const Main = () => {
         }
 
         let downloadTemplate = qrCodeRefs.current[index];
+        console.log(downloadTemplate);
         downloadTemplate.style.display = 'flex';
 
         html2canvas(qrCodeRefs.current[index])
@@ -114,9 +115,9 @@ const Main = () => {
             console.error('Error generating QR code image:', error);
         });
 
-        setTimeout(() => {
-            downloadTemplate.style.display = 'none';
-        }, 5000);
+        // setTimeout(() => {
+        //     downloadTemplate.style.display = 'none';
+        // }, 5000);
     }
 
     const searchHandler = (event) => {
