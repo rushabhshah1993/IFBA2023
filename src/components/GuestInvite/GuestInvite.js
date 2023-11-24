@@ -20,7 +20,7 @@ import AspriLogo from '@/assets/images/aspri-spirits.png';
 import BrunettsLogo from '@/assets/images/burnetts-gin.png';
 import GoldenSparrowLogo from '@/assets/images/golden-sparrow.png';
 import ScottishLeaderLogo from '@/assets/images/scottish-leader.png';
-import UlvukaVodkaLogo from '@/assets/images/ulvuka-vodka.png';
+import UlvukaVodkaLogo from '@/assets/images/uluvka-vodka.png';
 import TioLogo from '@/assets/images/tio-logo.png';
 
 const GuestInvite = props => {
@@ -41,14 +41,14 @@ const GuestInvite = props => {
                     <div className={styles.supportedByContainer}>
                         <span className={styles.logoFillerText}>Supported by:</span>
                         <div className={styles.supportedByLogos}>
-                            <img src={SoulFlowerLogo} />
-                            <img src={TioLogo} />
-                            <img src={AspriLogo} />
-                            <img src={BrunettsLogo} />
-                            <img src={AmarulaLogo} />
-                            <img src={UlvukaVodkaLogo} />
-                            <img src={GoldenSparrowLogo} />
-                            <img src={ScottishLeaderLogo} />
+                            <img src={SoulFlowerLogo} className={styles.soulflower} />
+                            <img src={TioLogo} className={styles.tio} />
+                            <img src={AspriLogo} className={styles.aspri} />
+                            <img src={BrunettsLogo} className={styles.burnetts} />
+                            <img src={AmarulaLogo} className={styles.amarula} />
+                            <img src={UlvukaVodkaLogo} className={styles.ulvuka} />
+                            <img src={GoldenSparrowLogo} className={styles.goldenSparrow} />
+                            <img src={ScottishLeaderLogo} className={styles.scottishLeader} />
                         </div>
                         <span className={styles.warningText}>
                             By Invitation Only. Consumption of alcohol is permitted only with a valid liquor license.
