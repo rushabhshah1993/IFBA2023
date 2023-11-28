@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './Login.scss';
 
 /* Image imports */
-import IFBALogo from '@/assets/images/logo.png';
+import TransparentIFBALogo from '@/assets/images/logo-transparent.png';
 
 /* Store imports */
 import { checkIfUserAuthenticated } from '@/store/slices/userSlice';
@@ -52,7 +52,7 @@ const Login = () => {
     return (
         <div className={styles.loginContainer}>
             <div className={styles.logoContainer}>
-                <img src={IFBALogo} />
+                <img src={TransparentIFBALogo} />
             </div>
             <input 
                 type="name" 
