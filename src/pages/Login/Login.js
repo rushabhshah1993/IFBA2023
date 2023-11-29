@@ -30,7 +30,8 @@ const Login = () => {
         let userAuthenticated = dispatch(checkIfUserAuthenticated(username, password));
         userAuthenticated.then(response => {
             if(response) {
-                window.location.replace('/');
+                if(window.location.pathname !== '/') window.location.replace(window.location.href);
+                else window.location.replace('/');
             }
         })
         .catch(error => {
